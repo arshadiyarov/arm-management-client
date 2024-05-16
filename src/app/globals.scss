@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "styles/variables/globals";
+
+
+body {
+  background-color: rgb(var(--clr-bg-primary));
+  color: rgb(var(--clr-type-black));
+}

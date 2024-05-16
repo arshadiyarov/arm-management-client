@@ -1,0 +1,27 @@
+:root {
+  --clr-primary: 59, 130, 246;
+  --clr-primary-hover: 51, 124, 245;
+  --clr-primary-active: 29 112 248;
+  --clr-secondary: 245, 245, 245;
+  --clr-secondary-hover: 249 250 251;
+  --clr-secondary-active: 243 244 246;
+  --clr-type-black: 17, 24, 39;
+  --clr-type-gray: 107, 114, 128;
+  --clr-bg-primary: 243,244,246;
+  --clr-bg-secondary: 247,248,249;
+  --clr-bg-white: 245,245,245;
+  --clr-border-black: 107 114 128;
+  --clr-border-white: 229 231 235;
+
+  --sz-xl: 30px;
+  --sz-lg: 24px;
+  --sz-md: 18px;
+  --sz-sm: 14px;
+
+  --lnh-xl: 36px;
+  --lnh-lg: 32px;
+  --lnh-md: 28px;
+  --lnh-sm: 20px;
+
+  --transition-default: all .2s linear;
+}
