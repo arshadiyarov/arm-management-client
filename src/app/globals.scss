@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @import "styles/variables/globals";
-
+@import "styles/reset/globals.scss";
 
 body {
   background-color: rgb(var(--clr-bg-primary));

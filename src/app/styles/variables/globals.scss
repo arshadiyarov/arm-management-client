@@ -2,19 +2,19 @@
   --clr-primary: 59, 130, 246;
   --clr-primary-hover: 51, 124, 245;
   --clr-primary-active: 29 112 248;
-  --clr-secondary: 245, 245, 245;
-  --clr-secondary-hover: 249 250 251;
-  --clr-secondary-active: 243 244 246;
+  --clr-secondary: 255, 255, 255;
+  --clr-secondary-hover: 250 250 250;
+  --clr-secondary-active: 245 245 245;
   --clr-type-black: 17, 24, 39;
   --clr-type-gray: 107, 114, 128;
-  --clr-bg-primary: 243,244,246;
-  --clr-bg-secondary: 247,248,249;
-  --clr-bg-white: 245,245,245;
-  --clr-border-black: 107 114 128;
-  --clr-border-white: 229 231 235;
+  --clr-bg-primary: 245, 245, 245;
+  --clr-bg-secondary: 255, 255, 255;
+  --clr-border-black: 107, 114, 128;
+  --clr-border-white: 229, 231, 235;
 
   --sz-xl: 30px;
   --sz-lg: 24px;
+  --sz-logo: 20px;
   --sz-md: 18px;
   --sz-sm: 14px;
 
@@ -23,5 +23,29 @@
   --lnh-md: 28px;
   --lnh-sm: 20px;
 
-  --transition-default: all .2s linear;
+  --font-thin: 100;
+  --font-extralight: 200;
+  --font-light: 300;
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+  --font-extrabold: 800;
+  --font-black: 900;
+
+  --transition-default: all .1s ease;
+
+  --border-primary: solid 1px rgb(var(--clr-border-black));
+  --border-secondary: solid 1px rgb(var(--clr-border-white));
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --padding-sm: 8px 12px;
+  --padding-md: 10px 16px;
+  --padding-lg: 12px 20px;
+
+  --w-navbar: 268px;
+  --w-login-form: 400px;
 }

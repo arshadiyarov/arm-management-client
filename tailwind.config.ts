@@ -1,10 +1,14 @@
 import type { Config } from "tailwindcss";
+import { PluginAPI } from "tailwindcss/types/config";
 
 const config: Config = {
   content: [
-    "_pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "app/**/*.{js,ts,jsx,tsx,mdx}",
-    "processes/**/*.{js,ts,jsx,tsx,mdx}",
+    "*/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "*/_pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "*/processes/**/*.{js,ts,jsx,tsx,mdx}",
+    "*/widgets/**/*.{js,ts,jsx,tsx,mdx}",
+    "*/features/**/*.{js,ts,jsx,tsx,mdx}",
+    "*/shared/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -19,7 +23,6 @@ const config: Config = {
         gray: "var(--clr-type-gray)",
         "bg-primary": "var(--clr-bg-primary)",
         "bg-secondary": "var(--clr-bg-secondary)",
-        "bg-white": "var(--clr-bg-white)",
         "border-black": "var(--clr-border-black)",
         "border-white": "var(--clr-border-white)",
       },
