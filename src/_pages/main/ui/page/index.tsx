@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { IProps } from "./props";
 import { AuthRequired } from "processes";
 import { Description, TokenStorageHelper } from "shared";
 import { Button } from "shared";
@@ -9,8 +8,9 @@ import { InfoCard, Table } from "widgets";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getProducts, getProductsSearch, getSummary } from "_pages/main/api";
 import { ProductType, SummaryType } from "shared";
+import { UpdateProductModal } from "features";
 
-const Main = (props: IProps) => {
+const Main = () => {
   const token = TokenStorageHelper.getToken();
   const [searchValue, setSearchValue] = useState("");
   const [summaryData, setSummaryData] = useState<SummaryType>({
@@ -21,11 +21,10 @@ const Main = (props: IProps) => {
   const [productsData, setProductsData] = useState<ProductType[]>([]);
   const [isSummaryLoading, setIsSummaryLoading] = useState(true);
   const [isProductsLoading, setIsProductsLoading] = useState(true);
-  const [limit, setLimit] = useState("10");
+  const [isUpdateModalActive, setIsUpdateModalActive] = useState(false);
+  const [updatingProduct, setUpdatingProduct] = useState<ProductType>();
 
-  const clearSearchValue = () => {
-    setSearchValue(() => "");
-  };
+  const clearSearchValue = () => setSearchValue("");
 
   const fetchSummary = async () => {
     setIsSummaryLoading(true);
@@ -35,8 +34,6 @@ const Main = (props: IProps) => {
       setIsSummaryLoading(false);
     } catch (err) {
       throw err;
-    } finally {
-      setIsSummaryLoading(false);
     }
   };
 
@@ -48,16 +45,11 @@ const Main = (props: IProps) => {
       setIsProductsLoading(false);
     } catch (err) {
       throw err;
-    } finally {
-      setIsProductsLoading(false);
     }
   };
 
-  const handleLimitChange = (val: string) => {
-    console.log("limit change before:", val);
-    setLimit(val);
-    console.log("limit change after:", val);
-    fetchProducts(val);
+  const handleLimitChange = async (val: string) => {
+    await fetchProducts(val);
   };
 
   const fetchProductsSearch = async (val: string) => {
@@ -68,8 +60,6 @@ const Main = (props: IProps) => {
       setIsProductsLoading(false);
     } catch (err) {
       throw err;
-    } finally {
-      setIsProductsLoading(false);
     }
   };
 
@@ -89,6 +79,34 @@ const Main = (props: IProps) => {
   useEffect(() => {
     fetchProducts();
   }, []);
+
+  const handleToggleUpdateModal = () => {
+    setIsUpdateModalActive((prevState) => !prevState);
+  };
+
+  const handleSelectProductId = (id: number) => {
+    const updatingProduct = productsData.find((p) => p.id === id);
+    setUpdatingProduct(updatingProduct);
+  };
+
+  const handleUpdateProductData = (updatedProduct: ProductType) => {
+    setProductsData((prevProducts) =>
+      prevProducts.map((product) =>
+        product.id === updatedProduct.id ? updatedProduct : product,
+      ),
+    );
+  };
+
+  useEffect(() => {
+    if (isUpdateModalActive) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isUpdateModalActive]);
 
   return (
     <AuthRequired>
@@ -142,7 +160,9 @@ const Main = (props: IProps) => {
           </div>
           <div className={styles.bottom}>
             <Table
-              products={productsData}
+              selectProductId={handleSelectProductId}
+              toggleUpdateModal={handleToggleUpdateModal}
+              productsData={productsData}
               isLoading={isProductsLoading}
               searchValue={searchValue}
               searchValueChange={handleSearchValueChange}
@@ -151,6 +171,13 @@ const Main = (props: IProps) => {
             />
           </div>
         </div>
+        {isUpdateModalActive && updatingProduct && (
+          <UpdateProductModal
+            toggleModal={handleToggleUpdateModal}
+            productData={updatingProduct}
+            updateProductData={handleUpdateProductData}
+          />
+        )}
       </main>
     </AuthRequired>
   );

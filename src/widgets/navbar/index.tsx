@@ -15,8 +15,12 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
     return path === pathname;
   };
 
-  const handleRouteing = (path: string) => {
+  const handleRouting = (path: string) => {
     router.push(path);
+  };
+
+  const handleLogoutClick = () => {
+    logout();
   };
 
   return (
@@ -67,7 +71,7 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
                           ? "icon-primary"
                           : "icon"
                     }
-                    onClick={() => handleRouteing(i.path)}
+                    onClick={() => handleRouting(i.path)}
                   >
                     {i.icon}
                     {isNavExpanded && <p>{i.title}</p>}
@@ -92,7 +96,7 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
                           ? "icon-primary"
                           : "icon"
                     }
-                    onClick={() => handleRouteing(i.path)}
+                    onClick={() => handleRouting(i.path)}
                   >
                     {i.icon}
                     {isNavExpanded && <p>{i.title}</p>}
@@ -104,7 +108,7 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
                   className={classNames(styles.btn, styles.logout)}
                   size={"md"}
                   mode={isNavExpanded ? "link" : "icon"}
-                  onClick={logout}
+                  onClick={handleLogoutClick}
                 >
                   <svg
                     stroke="currentColor"

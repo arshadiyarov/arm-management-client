@@ -1,0 +1,15 @@
+.container {
+  margin-top: var(--p-top-main);
+
+  .content {
+    padding: 20px;
+
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      max-width: 55%;
+
+    }
+  }
+}

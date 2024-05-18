@@ -1,22 +1,82 @@
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
-import { CURRENCY, InputSearch, LimitOptions } from "shared";
+import {
+  InputSearch,
+  LimitOptions,
+  TableAfterChange,
+  TableBeforeChange,
+  TableHistory,
+  TableModeType,
+  TableProducts,
+} from "shared";
+import classNames from "classnames";
+import React, { memo } from "react";
+
+const LoadingMessage = () => (
+  <p className="text-center p-3">Loading...</p> // TODO make shared loader component
+);
+
+const MemoizedProductsTable = memo(TableProducts);
+const MemoizedHistoryTable = memo(TableHistory);
+const MemoizedAfterChangeTable = memo(TableAfterChange);
+const MemoizedBeforeChangeTable = memo(TableBeforeChange);
 
 export const Table = ({
-  products,
+  historyData,
+  productsData,
+  afterChangeData,
+  beforeChangeData,
   title,
   searchValue,
   searchValueChange,
   clearSearchValue,
-  withSearch = true,
+  limit = true,
+  search = true,
+  pagination = true,
   isLoading = true,
   limitChange,
+  mode = "products",
+  toggleUpdateModal,
+  selectProductId,
 }: IProps) => {
+  const returnTable = (mode: TableModeType) => {
+    switch (mode) {
+      case "history":
+        return (
+          historyData && <MemoizedHistoryTable historyData={historyData} />
+        );
+      case "afterChange":
+        return (
+          afterChangeData && (
+            <MemoizedAfterChangeTable afterChange={afterChangeData} />
+          )
+        );
+      case "beforeChange":
+        return (
+          beforeChangeData && (
+            <MemoizedBeforeChangeTable beforeChange={beforeChangeData} />
+          )
+        );
+      case "products":
+        return (
+          productsData &&
+          toggleUpdateModal &&
+          selectProductId && (
+            <MemoizedProductsTable
+              productsData={productsData}
+              toggleUpdateModal={toggleUpdateModal}
+              selectProductId={selectProductId}
+            />
+          )
+        );
+    }
+  };
+
   return (
-    <div className={styles.content}>
+    <div className={classNames(styles.content, "space-y-3")}>
       <div className={styles.top}>
         <p>{title}</p>
-        {withSearch && (
+        {search && clearSearchValue && (
           <InputSearch
             placeholder="Search"
             value={searchValue}
@@ -25,33 +85,14 @@ export const Table = ({
           />
         )}
       </div>
-      {isLoading ? (
-        <p className="text-center p-3">Loading...</p> // TODO make shared loader component
-      ) : (
-        <table className={styles.table}>
-          <thead className={styles.thead}>
-            <tr className={styles.tr}>
-              <th className={styles.th}>Name</th>
-              <th className={styles.th}>Quantity available</th>
-              <th className={styles.th}>Price per unit</th>
-            </tr>
-          </thead>
-          <tbody className={styles.tbody}>
-            {products.map((p) => (
-              <tr key={p.id} className={styles.tr}>
-                <td className={styles.td}>{p.name}</td>
-                <td className={styles.td}>{p.quantity} pcs</td>
-                <td className={styles.td}>
-                  {p.price} {CURRENCY}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-      <div className={styles.bottom}>
-        <LimitOptions limitChange={limitChange} />
+      <div className={styles.table_wrapper}>
+        {isLoading ? <LoadingMessage /> : returnTable(mode)}
       </div>
+      {limit && pagination && (
+        <div className={styles.bottom}>
+          {limitChange && <LimitOptions limitChange={limitChange} />}
+        </div>
+      )}
     </div>
   );
 };

@@ -5,3 +5,9 @@ export type ButtonModeType =
   | "icon"
   | "link"
   | "ghost";
+
+export type TableModeType =
+  | "products"
+  | "history"
+  | "afterChange"
+  | "beforeChange";

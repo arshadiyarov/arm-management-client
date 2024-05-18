@@ -1,0 +1,28 @@
+.container {
+  padding-top: var(--p-top-main);
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+
+    .top {
+      display: flex;
+      justify-content: flex-end;
+
+      .back_btn {
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+    }
+
+    .info {
+      display: flex;
+      align-items: center;
+      gap: 52px;
+    }
+  }
+}

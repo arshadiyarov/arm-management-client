@@ -1,1 +1,2 @@
-export { LoginForm } from "./login-form/ui";
+export { LoginForm } from "./login-form";
+export { UpdateProductModal } from "./update-product-modal";

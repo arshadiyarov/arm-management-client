@@ -1,3 +1,3 @@
 import dynamic from "next/dynamic";
 
-export const History = dynamic(() => import("./ui/page"));
+export const History = dynamic(() => import("./ui/page"), { ssr: false });

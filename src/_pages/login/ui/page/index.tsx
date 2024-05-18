@@ -1,8 +1,7 @@
 import styles from "./styles.module.scss";
-import { IProps } from "./props";
 import { LoginForm } from "features";
 
-const Login = (props: IProps) => {
+const Login = () => {
   return (
     <main className={styles.container}>
       <div className={styles.content}>

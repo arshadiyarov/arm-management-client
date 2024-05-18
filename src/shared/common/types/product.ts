@@ -4,3 +4,9 @@ export type ProductType = {
   quantity: number;
   price: number;
 };
+
+export type ProductNoIdType = {
+  name: string;
+  quantity: number;
+  price: number;
+};

@@ -15,9 +15,11 @@ export const InfoCard = ({
       {isLoading ? (
         <p>Loading...</p> // TODO make shared loader component
       ) : (
-        <p className={styles.value}>
-          {value.toLocaleString()} {withCurrency && CURRENCY}
-        </p>
+        value && (
+          <p className={styles.value}>
+            {value.toLocaleString()} {withCurrency && CURRENCY}
+          </p>
+        )
       )}
     </div>
   );

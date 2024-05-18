@@ -1,7 +1,8 @@
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
-import { Button } from "shared";
+import { Button, convertTimestampToDate, convertTimestampToTime } from "shared";
 import classNames from "classnames";
+import { useEffect, useState } from "react";
 
 export const Header = ({ isNavExpanded }: IProps) => {
   return (

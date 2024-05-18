@@ -1,6 +1,6 @@
 export interface IProps {
   title: string;
-  value: number;
+  value: number | null | undefined;
   withCurrency?: boolean;
   isLoading: boolean;
 }

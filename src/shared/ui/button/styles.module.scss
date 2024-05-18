@@ -20,7 +20,7 @@
 .lg {
   font-size: var(--sz-lg);
   line-height: var(--lnh-lg);
-  padding: var(--p-);
+  padding: var(--p-lg);
   border-radius: var(--r-lg);
 }
 
@@ -100,6 +100,7 @@
 }
 
 .icon-primary, .icon {
+
   &.sm {
     padding: var(--p-icon-sm);
   }

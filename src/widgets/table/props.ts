@@ -1,13 +1,27 @@
 import { ChangeEvent } from "react";
-import { ProductType } from "shared";
+import {
+  AfterChangeType,
+  BeforeChangeType,
+  HistoryType,
+  ProductType,
+  TableModeType,
+} from "shared";
 
 export interface IProps {
-  products: ProductType[];
+  productsData?: ProductType[];
+  historyData?: HistoryType[];
+  afterChangeData?: AfterChangeType[];
+  beforeChangeData?: BeforeChangeType[];
   isLoading: boolean;
   title?: string;
-  searchValue: string;
-  searchValueChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  clearSearchValue: () => void;
-  withSearch?: boolean;
-  limitChange: (val: string) => void;
+  searchValue?: string;
+  searchValueChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  clearSearchValue?: () => void;
+  search?: boolean;
+  limit?: boolean;
+  pagination?: boolean;
+  limitChange?: (val: string) => void;
+  mode?: TableModeType;
+  toggleUpdateModal?: () => void;
+  selectProductId?: (id: number) => void;
 }

@@ -3,3 +3,8 @@ export { Input } from "./input";
 export { Description } from "./description";
 export { InputSearch } from "./input-search";
 export { LimitOptions } from "./limit-options";
+export { TableProducts } from "./table-products";
+export { TableHistory } from "./table-history";
+export { TableAfterChange } from "./table-after-change";
+export { TableBeforeChange } from "./table-before-change";
+export { RequiredStar } from "./required-star";
