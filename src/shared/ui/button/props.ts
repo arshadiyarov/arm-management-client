@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
-import { SizeType, ModeType } from "shared";
+import { SizeType, ButtonModeType } from "shared";
 
 export interface IProps
   extends DetailedHTMLProps<
@@ -7,5 +7,5 @@ export interface IProps
     HTMLButtonElement
   > {
   size?: SizeType;
-  mode?: ModeType;
+  mode?: ButtonModeType;
 }

@@ -1,0 +1,17 @@
+.content {
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: var(--border-secondary);
+  border-radius: var(--r-sm);
+  font-size: var(--sz-md);
+
+  .icon {
+    color: rgb(var(--clr-type-gray));
+  }
+
+  .input {
+    width: 100%;
+  }
+}

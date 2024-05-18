@@ -1,8 +1,18 @@
 .content {
   display: flex;
+  position: relative;
 
   .main {
     width: 100%;
     min-height: 100vh;
+    padding-left: 68px;
+
+    &.expanded {
+      padding-left: calc(var(--w-navbar-expanded) + 1px);
+    }
+
+    &:first-child {
+
+    }
   }
 }

@@ -1,4 +1,4 @@
-/** @type {import('next').NextConfig} */
+/** @types {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: false,
   compiler: {

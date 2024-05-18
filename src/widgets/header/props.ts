@@ -1,1 +1,3 @@
-export interface IProps {}
+export interface IProps {
+  isNavExpanded: boolean;
+}

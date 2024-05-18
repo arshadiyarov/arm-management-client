@@ -18,8 +18,8 @@ export const Button = (props: PropsWithChildren<IProps>) => {
       onClick={onClick}
       className={classNames(
         styles.button,
-        styles[size],
         styles[mode],
+        styles[size],
         className,
       )}
     >

@@ -18,9 +18,7 @@ export const baseFetchAsync = async <T>(
       data: body ? JSON.stringify(body) : undefined,
     };
 
-    const res = await axios(config);
-
-    return res;
+    return await axios(config);
   } catch (err) {
     throw err;
   }

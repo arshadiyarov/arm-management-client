@@ -1,0 +1,17 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .title {
+    font-size: var(--sz-lg);
+    line-height: var(--lnh-lg);
+    font-weight: var(--font-bold);
+  }
+
+  .description {
+    color: rgb(var(--clr-type-gray));
+    font-size: var(--sz-md);
+    line-height: var(--lnh-description);
+  }
+}

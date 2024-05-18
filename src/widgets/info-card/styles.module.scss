@@ -1,0 +1,20 @@
+.content {
+  width: 100%;
+  background-color: rgb(var(--clr-secondary));
+  border-radius: var(--r-md);
+  padding: 20px;
+  border: var(--border-secondary);
+
+  .title {
+    font-size: var(--sz-md);
+    line-height: var(--lnh-md);
+    color: rgb(var(--clr-type-gray));
+    font-weight: var(--font-medium);
+  }
+
+  .value {
+    font-size: var(--sz-xl);
+    line-height: var(--lnh-xl);
+    font-weight: var(--font-medium);
+  }
+}

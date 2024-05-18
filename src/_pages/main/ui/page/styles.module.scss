@@ -1,0 +1,36 @@
+.container {
+  margin-top: var(--p-top-main);
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+
+    .top {
+      min-width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      & div {
+        max-width: 55%;
+      }
+
+      .btn {
+        justify-self: flex-end;
+        max-width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 4px;
+      }
+    }
+
+    .mid {
+      display: flex;
+      align-items: center;
+      gap: 52px;
+    }
+  }
+}
