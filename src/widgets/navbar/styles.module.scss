@@ -41,7 +41,7 @@
           gap: 12px;
 
           &.logout {
-            color: red;
+            color: rgb(var(--clr-type-red));
           }
         }
       }

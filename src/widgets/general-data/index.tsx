@@ -2,11 +2,21 @@ import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import {
   actionTypeToString,
+  Button,
   convertTimestampToDate,
   convertTimestampToTime,
+  truncateString,
 } from "shared";
 
-export const GeneralData = ({ historyData }: IProps) => {
+export const GeneralData = ({ historyData, toggleReadMoreModal }: IProps) => {
+  const shouldExtraInfoConcat = () => {
+    if (historyData.extra_info) {
+      return historyData.extra_info?.length > 40;
+    }
+
+    return false;
+  };
+
   return (
     <div className={styles.content}>
       <div className={styles.top}>
@@ -27,7 +37,20 @@ export const GeneralData = ({ historyData }: IProps) => {
               <span className="text-gray">Empty</span>
             )}
             {historyData.extra_info ? (
-              <span>{historyData.extra_info}</span>
+              <span>
+                {truncateString(historyData.extra_info)}
+                {shouldExtraInfoConcat() && (
+                  <>
+                    ...
+                    <button
+                      className={styles.readMore}
+                      onClick={toggleReadMoreModal}
+                    >
+                      Read more
+                    </button>
+                  </>
+                )}
+              </span>
             ) : (
               <span className="text-gray">Empty</span>
             )}

@@ -7,7 +7,7 @@
   --clr-secondary-active: 235 235 235;
   --clr-type-black: 17, 24, 39;
   --clr-type-gray: 107, 114, 128;
-  --clr-type-red: 239, 68, 68;
+  --clr-type-red: 245, 0, 0;
   --clr-bg-primary: 243, 244, 246;
   --clr-bg-secondary: 255, 255, 255;
   --clr-bg-thead: 247, 248, 249;
@@ -58,6 +58,9 @@
   --w-navbar: 68px;
   --w-navbar-expanded: 268px;
   --w-login-form: 400px;
+  --w-modal: 550px;
+
+  --h-max-modal: calc(100vh - 10%);
 
   --z-index-header: 1;
   --z-index-navbar: 2;

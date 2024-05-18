@@ -74,7 +74,7 @@ export const UpdateProductModal = ({
         <div className={styles.top}>
           <p>Update product</p>
           <Button
-            size={"sm"}
+            size="sm"
             mode="icon"
             className={styles.close}
             onClick={toggleModal}

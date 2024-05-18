@@ -2,12 +2,11 @@
 
 import styles from "./styles.module.scss";
 import { useParams, useRouter } from "next/navigation";
-import { Button, HistoryType, TokenStorageHelper } from "shared";
+import { Button, HistoryType, ReadMoreModal, TokenStorageHelper } from "shared";
 import { GeneralData, InfoCard, Table } from "widgets";
 import { getHistory } from "_pages/history-details/api";
 import { useEffect, useState } from "react";
 import { AuthRequired } from "processes";
-import classNames from "classnames";
 
 const HistoryDetails = () => {
   const token = TokenStorageHelper.getToken();
@@ -16,6 +15,11 @@ const HistoryDetails = () => {
   // TODO change this after adding get /history/{historyId} endpoint in backend
   const [foundHistoryData, setFoundHistoryData] = useState<HistoryType>();
   const [isLoading, setIsLoading] = useState(true);
+  const [isReadMoreModalActive, setIsReadMoreModalActive] = useState(false);
+
+  const handleToggleReadMoreModal = () => {
+    setIsReadMoreModalActive((prevState) => !prevState);
+  };
 
   const handleBackClick = () => {
     router.push("/history");
@@ -68,7 +72,12 @@ const HistoryDetails = () => {
               <p>Back</p>
             </Button>
           </div>
-          {foundHistoryData && <GeneralData historyData={foundHistoryData} />}
+          {foundHistoryData && (
+            <GeneralData
+              toggleReadMoreModal={handleToggleReadMoreModal}
+              historyData={foundHistoryData}
+            />
+          )}
           {foundHistoryData?.history_type !== "update" && (
             <div className={styles.info}>
               <InfoCard
@@ -110,6 +119,12 @@ const HistoryDetails = () => {
             />
           )}
         </div>
+        {isReadMoreModalActive && foundHistoryData?.extra_info && (
+          <ReadMoreModal
+            toggleModal={handleToggleReadMoreModal}
+            val={foundHistoryData?.extra_info}
+          />
+        )}
       </main>
     </AuthRequired>
   );

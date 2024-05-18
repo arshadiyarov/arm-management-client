@@ -1,0 +1,94 @@
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--z-index-modal);
+  background-color: rgba(var(--clr-bg-modal));
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .content {
+    position: relative;
+    max-width: var(--w-modal);
+    background-color: rgb(var(--clr-bg-secondary));
+    padding: 20px;
+    border: var(--border-secondary);
+    border-radius: var(--r-md);
+    max-height: var(--h-max-modal);
+    overflow-y: auto;
+
+    .top {
+      text-align: center;
+      font-size: var(--sz-lg);
+      line-height: var(--lnh-lg);
+      font-weight: var(--font-semibold);
+
+      .close {
+        position: absolute;
+        width: fit-content;
+        top: 12px;
+        right: 12px;
+      }
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+
+      .inputs_container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        .fullWidth {
+          width: 50%;
+        }
+
+        .halfWidth {
+          width: 25%;
+        }
+
+        .labels {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: -12px;
+        }
+
+        .inputsWithRemove {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+
+          .inputs {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            input {
+              font-size: var(--sz-md);
+              line-height: var(--lnh-md);
+            }
+          }
+
+          .removeBtn {
+            color: rgb(var(--clr-type-red));
+          }
+        }
+
+        .addBtn {
+          width: fit-content;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+      }
+    }
+  }
+}

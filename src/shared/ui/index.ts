@@ -8,3 +8,4 @@ export { TableHistory } from "./table-history";
 export { TableAfterChange } from "./table-after-change";
 export { TableBeforeChange } from "./table-before-change";
 export { RequiredStar } from "./required-star";
+export { ReadMoreModal } from "./read-more-modal";

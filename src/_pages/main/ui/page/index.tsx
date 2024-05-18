@@ -8,7 +8,7 @@ import { InfoCard, Table } from "widgets";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getProducts, getProductsSearch, getSummary } from "_pages/main/api";
 import { ProductType, SummaryType } from "shared";
-import { UpdateProductModal } from "features";
+import { CreateProductsModal, UpdateProductModal } from "features";
 
 const Main = () => {
   const token = TokenStorageHelper.getToken();
@@ -22,6 +22,7 @@ const Main = () => {
   const [isSummaryLoading, setIsSummaryLoading] = useState(true);
   const [isProductsLoading, setIsProductsLoading] = useState(true);
   const [isUpdateModalActive, setIsUpdateModalActive] = useState(false);
+  const [isCreateModalActive, setIsCreateModalActive] = useState(false);
   const [updatingProduct, setUpdatingProduct] = useState<ProductType>();
 
   const clearSearchValue = () => setSearchValue("");
@@ -84,6 +85,10 @@ const Main = () => {
     setIsUpdateModalActive((prevState) => !prevState);
   };
 
+  const handleToggleCreateModal = () => {
+    setIsCreateModalActive((prevState) => !prevState);
+  };
+
   const handleSelectProductId = (id: number) => {
     const updatingProduct = productsData.find((p) => p.id === id);
     setUpdatingProduct(updatingProduct);
@@ -98,7 +103,7 @@ const Main = () => {
   };
 
   useEffect(() => {
-    if (isUpdateModalActive) {
+    if (isUpdateModalActive || isCreateModalActive) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -106,7 +111,7 @@ const Main = () => {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isUpdateModalActive]);
+  }, [isUpdateModalActive, isCreateModalActive]);
 
   return (
     <AuthRequired>
@@ -119,7 +124,7 @@ const Main = () => {
                 "Here you will find a table of products. You can view all items in stock using the table below. For convenience, you can search for matches by name, enter part of the product name and only matches will remain in the table. To add an item, click on the button in the top right corner."
               }
             />
-            <Button className={styles.btn}>
+            <Button className={styles.btn} onClick={handleToggleCreateModal}>
               <svg
                 stroke="currentColor"
                 fill="currentColor"
@@ -177,6 +182,9 @@ const Main = () => {
             productData={updatingProduct}
             updateProductData={handleUpdateProductData}
           />
+        )}
+        {isCreateModalActive && (
+          <CreateProductsModal toggleModal={handleToggleCreateModal} />
         )}
       </main>
     </AuthRequired>

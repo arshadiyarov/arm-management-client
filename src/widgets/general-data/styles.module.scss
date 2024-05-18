@@ -40,6 +40,16 @@
           font-size: var(--sz-md);
           font-weight: var(--font-medium);
         }
+
+        .readMore {
+          color: rgb(var(--clr-primary));
+          font-size: var(--sz-sm);
+          line-height: var(--lnh-sm);
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
     }
   }
