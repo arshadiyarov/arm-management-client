@@ -1,15 +1,9 @@
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import React from "react";
-import {
-  actionTypeToString,
-  convertTimestampToDate,
-  convertTimestampToTime,
-  CURRENCY,
-} from "shared";
-import { useRouter } from "next/navigation";
+import { CURRENCY, TableSkeleton } from "shared";
 
-export const TableBeforeChange = ({ beforeChange }: IProps) => {
+export const TableBeforeChange = ({ beforeChange, isLoading }: IProps) => {
   return (
     <table className={styles.table}>
       <thead className={styles.thead}>
@@ -20,15 +14,19 @@ export const TableBeforeChange = ({ beforeChange }: IProps) => {
         </tr>
       </thead>
       <tbody className={styles.tbody}>
-        {beforeChange.map((i) => (
-          <tr key={i.name} className={styles.tr}>
-            <td className={styles.td}>{i.name}</td>
-            <td className={styles.td}>{i.quantity} pcs</td>
-            <td className={styles.td}>
-              {i.price} {CURRENCY}
-            </td>
-          </tr>
-        ))}
+        {isLoading ? (
+          <TableSkeleton rows={3} />
+        ) : (
+          beforeChange.map((i) => (
+            <tr key={i.name} className={styles.tr}>
+              <td className={styles.td}>{i.name}</td>
+              <td className={styles.td}>{i.quantity} pcs</td>
+              <td className={styles.td}>
+                {i.price} {CURRENCY}
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );

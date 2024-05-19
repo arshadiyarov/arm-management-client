@@ -12,10 +12,6 @@ import {
 import classNames from "classnames";
 import React, { memo } from "react";
 
-const LoadingMessage = () => (
-  <p className="text-center p-3">Loading...</p> // TODO make shared loader component
-);
-
 const MemoizedProductsTable = memo(TableProducts);
 const MemoizedHistoryTable = memo(TableHistory);
 const MemoizedAfterChangeTable = memo(TableAfterChange);
@@ -43,18 +39,29 @@ export const Table = ({
     switch (mode) {
       case "history":
         return (
-          historyData && <MemoizedHistoryTable historyData={historyData} />
+          historyData && (
+            <MemoizedHistoryTable
+              historyData={historyData}
+              isLoading={isLoading}
+            />
+          )
         );
       case "afterChange":
         return (
           afterChangeData && (
-            <MemoizedAfterChangeTable afterChange={afterChangeData} />
+            <MemoizedAfterChangeTable
+              afterChange={afterChangeData}
+              isLoading={isLoading}
+            />
           )
         );
       case "beforeChange":
         return (
           beforeChangeData && (
-            <MemoizedBeforeChangeTable beforeChange={beforeChangeData} />
+            <MemoizedBeforeChangeTable
+              beforeChange={beforeChangeData}
+              isLoading={isLoading}
+            />
           )
         );
       case "products":
@@ -66,6 +73,7 @@ export const Table = ({
               productsData={productsData}
               toggleUpdateModal={toggleUpdateModal}
               selectProductId={selectProductId}
+              isLoading={isLoading}
             />
           )
         );
@@ -85,9 +93,7 @@ export const Table = ({
           />
         )}
       </div>
-      <div className={styles.table_wrapper}>
-        {isLoading ? <LoadingMessage /> : returnTable(mode)}
-      </div>
+      <div className={styles.table_wrapper}>{returnTable(mode)}</div>
       {limit && pagination && (
         <div className={styles.bottom}>
           {limitChange && <LimitOptions limitChange={limitChange} />}

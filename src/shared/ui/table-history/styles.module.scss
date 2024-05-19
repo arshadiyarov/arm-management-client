@@ -3,6 +3,7 @@
   background-color: rgb(var(--clr-bg-secondary));
   border-collapse: collapse;
   border-spacing: 0;
+  table-layout: fixed;
 
   .thead {
     background-color: rgb(var(--clr-bg-thead));

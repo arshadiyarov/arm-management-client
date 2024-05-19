@@ -7,5 +7,6 @@ export { TableProducts } from "./table-products";
 export { TableHistory } from "./table-history";
 export { TableAfterChange } from "./table-after-change";
 export { TableBeforeChange } from "./table-before-change";
+export { TableSkeleton } from "./table-skeleton";
 export { RequiredStar } from "./required-star";
 export { ReadMoreModal } from "./read-more-modal";

@@ -1,0 +1,22 @@
+.tr {
+  cursor: pointer;
+  border-bottom: var(--border-secondary);
+  transition: var(--transition-default);
+
+  &:hover {
+    background-color: rgb(var(--clr-bg-primary));
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .td {
+    padding: 16px 0;
+
+    .skeleton {
+      width: var(--w-skeleton);
+      height: var(--lnh-md);
+    }
+  }
+}

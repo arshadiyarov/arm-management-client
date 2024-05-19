@@ -2,6 +2,7 @@ import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import classNames from "classnames";
 import { CURRENCY } from "shared";
+import Skeleton from "react-loading-skeleton";
 
 export const InfoCard = ({
   title,
@@ -13,7 +14,7 @@ export const InfoCard = ({
     <div className={classNames(styles.content, "space-y-3")}>
       <p className={styles.title}>{title}</p>
       {isLoading ? (
-        <p>Loading...</p> // TODO make shared loader component
+        <Skeleton className={styles.skeleton} />
       ) : (
         value && (
           <p className={styles.value}>

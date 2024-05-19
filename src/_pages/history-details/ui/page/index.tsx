@@ -2,7 +2,15 @@
 
 import styles from "./styles.module.scss";
 import { useParams, useRouter } from "next/navigation";
-import { Button, HistoryType, ReadMoreModal, TokenStorageHelper } from "shared";
+import {
+  ActionType,
+  AfterChangeType,
+  BeforeChangeType,
+  Button,
+  HistoryType,
+  ReadMoreModal,
+  TokenStorageHelper,
+} from "shared";
 import { GeneralData, InfoCard, Table } from "widgets";
 import { getHistory } from "_pages/history-details/api";
 import { useEffect, useState } from "react";
@@ -13,7 +21,20 @@ const HistoryDetails = () => {
   const { historyId } = useParams();
   const router = useRouter();
   // TODO change this after adding get /history/{historyId} endpoint in backend
-  const [foundHistoryData, setFoundHistoryData] = useState<HistoryType>();
+  const [foundHistoryData, setFoundHistoryData] = useState<HistoryType>({
+    id: 1,
+    username: "",
+    buyer: null,
+    extra_info: null,
+    before_change: [],
+    after_change: [],
+    history_type: "add",
+    title: "",
+    total_unique_items_count: null,
+    total_items_count: null,
+    total_price: null,
+    timestamp: new Date(),
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [isReadMoreModalActive, setIsReadMoreModalActive] = useState(false);
 
@@ -30,8 +51,10 @@ const HistoryDetails = () => {
     try {
       const res = await getHistory(token);
       const foundItem = res.find((i) => i.id === parseInt(historyId as string));
-      setFoundHistoryData(foundItem);
-      setIsLoading(false);
+      if (foundItem) {
+        setFoundHistoryData(foundItem);
+        setIsLoading(false);
+      }
     } catch (err) {
       throw err;
     }
@@ -72,12 +95,11 @@ const HistoryDetails = () => {
               <p>Back</p>
             </Button>
           </div>
-          {foundHistoryData && (
-            <GeneralData
-              toggleReadMoreModal={handleToggleReadMoreModal}
-              historyData={foundHistoryData}
-            />
-          )}
+          <GeneralData
+            toggleReadMoreModal={handleToggleReadMoreModal}
+            historyData={foundHistoryData}
+            isLoading={isLoading}
+          />
           {foundHistoryData?.history_type !== "update" && (
             <div className={styles.info}>
               <InfoCard

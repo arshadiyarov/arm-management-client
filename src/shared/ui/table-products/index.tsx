@@ -1,12 +1,13 @@
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
-import { CURRENCY } from "shared";
+import { CURRENCY, TableSkeleton } from "shared";
 import React from "react";
 
 export const TableProducts = ({
   productsData,
   toggleUpdateModal,
   selectProductId,
+  isLoading,
 }: IProps) => {
   const handleClick = (id: number) => {
     toggleUpdateModal();
@@ -23,19 +24,23 @@ export const TableProducts = ({
         </tr>
       </thead>
       <tbody className={styles.tbody}>
-        {productsData.map((i) => (
-          <tr
-            key={i.id}
-            className={styles.tr}
-            onClick={() => handleClick(i.id)}
-          >
-            <td className={styles.td}>{i.name}</td>
-            <td className={styles.td}>{i.quantity} pcs</td>
-            <td className={styles.td}>
-              {i.price} {CURRENCY}
-            </td>
-          </tr>
-        ))}
+        {isLoading ? (
+          <TableSkeleton />
+        ) : (
+          productsData.map((i) => (
+            <tr
+              key={i.id}
+              className={styles.tr}
+              onClick={() => handleClick(i.id)}
+            >
+              <td className={styles.td}>{i.name}</td>
+              <td className={styles.td}>{i.quantity} pcs</td>
+              <td className={styles.td}>
+                {i.price} {CURRENCY}
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );

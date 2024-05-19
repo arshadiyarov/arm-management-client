@@ -3,6 +3,7 @@
   background-color: rgb(var(--clr-bg-secondary));
   border-collapse: collapse;
   border-spacing: 0;
+  table-layout: fixed;
 
   .thead {
     background-color: rgb(var(--clr-bg-thead));
@@ -38,6 +39,11 @@
 
       .td {
         padding: 16px 0;
+
+        .skeleton {
+          width: var(--w-skeleton);
+          height: var(--lnh-md);
+        }
       }
     }
   }

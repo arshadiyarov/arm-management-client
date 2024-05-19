@@ -2,18 +2,21 @@ import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import {
   actionTypeToString,
-  Button,
   convertTimestampToDate,
   convertTimestampToTime,
   truncateString,
 } from "shared";
+import Skeleton from "react-loading-skeleton";
 
-export const GeneralData = ({ historyData, toggleReadMoreModal }: IProps) => {
+export const GeneralData = ({
+  historyData,
+  toggleReadMoreModal,
+  isLoading,
+}: IProps) => {
   const shouldExtraInfoConcat = () => {
     if (historyData.extra_info) {
-      return historyData.extra_info?.length > 40;
+      return historyData.extra_info?.length > 20;
     }
-
     return false;
   };
 
@@ -25,34 +28,41 @@ export const GeneralData = ({ historyData, toggleReadMoreModal }: IProps) => {
       <div className={styles.main}>
         <div className={styles.left}>
           <div className={styles.left_inner}>
-            <p>Action taken:</p>
+            <p>User:</p>
             <p>Buyer:</p>
-            <p>Additional info:</p>
+            <p>Info:</p>
           </div>
           <div className={styles.right_inner}>
-            <span>{historyData.username}</span>
-            {historyData.buyer ? (
-              <span>{historyData.buyer}</span>
+            {isLoading ? (
+              <>
+                <Skeleton className={styles.skeleton} />
+                <Skeleton className={styles.skeleton} />
+                <Skeleton className={styles.skeleton} />
+              </>
             ) : (
-              <span className="text-gray">Empty</span>
-            )}
-            {historyData.extra_info ? (
-              <span>
-                {truncateString(historyData.extra_info)}
-                {shouldExtraInfoConcat() && (
-                  <>
-                    ...
-                    <button
-                      className={styles.readMore}
-                      onClick={toggleReadMoreModal}
-                    >
-                      Read more
-                    </button>
-                  </>
+              <>
+                <p>{historyData.username}</p>
+                {historyData.buyer ? (
+                  <p>{historyData.buyer}</p>
+                ) : (
+                  <p className={styles.empty}>Empty</p>
                 )}
-              </span>
-            ) : (
-              <span className="text-gray">Empty</span>
+                {historyData.extra_info ? (
+                  <p>
+                    {truncateString(historyData.extra_info)}
+                    {shouldExtraInfoConcat() && (
+                      <button
+                        className={styles.readMore}
+                        onClick={toggleReadMoreModal}
+                      >
+                        Read more
+                      </button>
+                    )}
+                  </p>
+                ) : (
+                  <p className={styles.empty}>Empty</p>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -63,9 +73,19 @@ export const GeneralData = ({ historyData, toggleReadMoreModal }: IProps) => {
             <p>Action:</p>
           </div>
           <div className={styles.right_inner}>
-            <span>{convertTimestampToTime(historyData.timestamp)}</span>
-            <span>{convertTimestampToDate(historyData.timestamp)}</span>
-            <span>{actionTypeToString(historyData.history_type)}</span>
+            {isLoading ? (
+              <>
+                <Skeleton className={styles.skeleton} />
+                <Skeleton className={styles.skeleton} />
+                <Skeleton className={styles.skeleton} />
+              </>
+            ) : (
+              <>
+                <p>{convertTimestampToTime(historyData.timestamp)}</p>
+                <p>{convertTimestampToDate(historyData.timestamp)}</p>
+                <p>{actionTypeToString(historyData.history_type)}</p>
+              </>
+            )}
           </div>
         </div>
       </div>

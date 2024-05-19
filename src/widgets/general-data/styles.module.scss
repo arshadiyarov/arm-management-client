@@ -16,29 +16,44 @@
   .main {
     padding-top: 12px;
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    flex-wrap: wrap-reverse;
 
     .left, .right {
       display: flex;
+      max-width: 100%;
       align-items: center;
+      justify-content: center;
       gap: 12px;
+      flex: 1;
 
       .left_inner {
-        text-align: right;
+        min-width: 60px;
 
         p {
           font-size: var(--sz-md);
+          line-height: var(--lnh-md);
         }
       }
 
       .right_inner {
+        width: 250px;
         display: flex;
         flex-direction: column;
 
-        span {
+        .skeleton {
+          width: var(--w-skeleton);
+          height: var(--sz-md);
+        }
+
+        p {
           font-size: var(--sz-md);
+          line-height: var(--lnh-md);
           font-weight: var(--font-medium);
+        }
+
+        .empty {
+          color: rgb(var(--clr-type-gray));
+          font-weight: var(--font-normal);
         }
 
         .readMore {

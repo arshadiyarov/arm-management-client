@@ -7,10 +7,11 @@ import {
   actionTypeToString,
   convertTimestampToDate,
   convertTimestampToTime,
+  TableSkeleton,
 } from "shared";
 import { useRouter } from "next/navigation";
 
-export const TableHistory = ({ historyData }: IProps) => {
+export const TableHistory = ({ historyData, isLoading }: IProps) => {
   const router = useRouter();
 
   const handleClick = (id: number) => {
@@ -28,18 +29,28 @@ export const TableHistory = ({ historyData }: IProps) => {
         </tr>
       </thead>
       <tbody className={styles.tbody}>
-        {historyData.map((i) => (
-          <tr
-            key={i.id}
-            className={styles.tr}
-            onClick={() => handleClick(i.id)}
-          >
-            <td className={styles.td}>{convertTimestampToDate(i.timestamp)}</td>
-            <td className={styles.td}>{convertTimestampToTime(i.timestamp)}</td>
-            <td className={styles.td}>{i.username}</td>
-            <td className={styles.td}>{actionTypeToString(i.history_type)}</td>
-          </tr>
-        ))}
+        {isLoading ? (
+          <TableSkeleton columns={4} />
+        ) : (
+          historyData.map((i) => (
+            <tr
+              key={i.id}
+              className={styles.tr}
+              onClick={() => handleClick(i.id)}
+            >
+              <td className={styles.td}>
+                {convertTimestampToDate(i.timestamp)}
+              </td>
+              <td className={styles.td}>
+                {convertTimestampToTime(i.timestamp)}
+              </td>
+              <td className={styles.td}>{i.username}</td>
+              <td className={styles.td}>
+                {actionTypeToString(i.history_type)}
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );

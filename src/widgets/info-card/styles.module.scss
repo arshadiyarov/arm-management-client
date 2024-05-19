@@ -12,6 +12,12 @@
     font-weight: var(--font-medium);
   }
 
+  .skeleton {
+    height: var(--lnh-xl);
+    margin-top: 18px;
+    width: var(--w-skeleton);
+  }
+
   .value {
     font-size: var(--sz-xl);
     line-height: var(--lnh-xl);
