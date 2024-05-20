@@ -39,7 +39,9 @@ export const LoginForm = () => {
       setIsLoading(false);
       setError(false);
       setSuccess(true);
-      router.push("/");
+      setTimeout(() => {
+        router.push("/");
+      }, 500);
     } catch (err) {
       setIsLoading(false);
       setSuccess(false);

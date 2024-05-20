@@ -18,7 +18,8 @@ export const InfoCard = ({
       ) : (
         value && (
           <p className={styles.value}>
-            {value.toLocaleString()} {withCurrency && CURRENCY}
+            {value.toLocaleString()}
+            {withCurrency && CURRENCY}
           </p>
         )
       )}

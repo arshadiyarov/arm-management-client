@@ -4,6 +4,7 @@
   border-collapse: collapse;
   border-spacing: 0;
   table-layout: fixed;
+  padding: 0 20px;
 
   .thead {
     background-color: rgb(var(--clr-bg-thead));
@@ -11,6 +12,11 @@
     font-size: var(--sz-md);
     line-height: var(--lnh-md);
     border-bottom: var(--border-secondary);
+
+    @media (max-width: 640px) {
+      font-size: var(--sz-sm);
+      line-height: var(--lnh-sm);
+    }
 
     .th {
       font-weight: var(--font-medium);
@@ -22,6 +28,11 @@
     text-align: center;
     font-size: var(--sz-md);
     line-height: var(--lnh-md);
+
+    @media (max-width: 640px) {
+      font-size: var(--sz-sm);
+      line-height: var(--lnh-sm);
+    }
 
 
     .tr {

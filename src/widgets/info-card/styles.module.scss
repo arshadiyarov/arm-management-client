@@ -4,6 +4,9 @@
   border-radius: var(--r-md);
   padding: 20px;
   border: var(--border-secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   .title {
     font-size: var(--sz-md);

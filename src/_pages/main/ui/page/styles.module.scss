@@ -1,6 +1,10 @@
 .container {
   margin-top: var(--p-top-main);
 
+  @media (max-width: 508px) {
+    margin-top: var(--p-top-main-mobile);
+  }
+
   .content {
     display: flex;
     flex-direction: column;
@@ -15,6 +19,10 @@
 
       & div {
         max-width: 55%;
+
+        @media (max-width: 768px) {
+            max-width: 100%;
+        }
       }
 
       .btn {
@@ -24,13 +32,22 @@
         align-items: center;
         justify-content: flex-start;
         gap: 4px;
+
+        @media (max-width: 768px) {
+          display: none;
+        }
       }
     }
 
     .mid {
       display: flex;
-      align-items: center;
-      gap: 52px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+
+      div {
+        min-width: fit-content;
+        flex: 1;
+      }
     }
   }
 }
