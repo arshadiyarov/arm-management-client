@@ -72,6 +72,12 @@
             align-items: center;
             gap: 12px;
 
+            &.loading {
+              input {
+
+              }
+            }
+
             input {
               font-size: var(--sz-md);
               line-height: var(--lnh-md);

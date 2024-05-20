@@ -1,11 +1,18 @@
 "use client";
 
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 import { AuthRequired } from "processes";
-import { Description, TokenStorageHelper } from "shared";
-import { Button } from "shared";
 import { InfoCard, Table } from "widgets";
-import { ChangeEvent, useEffect, useState } from "react";
+import { CreateProductsModal, UpdateProductModal } from "features";
+import {
+  Button,
+  ProductType,
+  SummaryType,
+  Description,
+  TokenStorageHelper,
+  useDebounce,
+} from "shared";
 import {
   getProducts,
   getProductsDev,
@@ -13,24 +20,36 @@ import {
   getProductsSearchDev,
   getSummary,
   getSummaryDev,
+  postProducts,
 } from "_pages/main/api";
-import { ProductType, SummaryType } from "shared";
-import { CreateProductsModal, UpdateProductModal } from "features";
+import { useProducts } from "processes/products-context";
 
 const Main = () => {
   const token = TokenStorageHelper.getToken();
   const [searchValue, setSearchValue] = useState("");
+  const debouncedSearch = useDebounce(searchValue);
   const [summaryData, setSummaryData] = useState<SummaryType>({
     unique_items_count: 0,
     total_items_count: 0,
     total_price: 0,
   });
-  const [productsData, setProductsData] = useState<ProductType[]>([]);
   const [isSummaryLoading, setIsSummaryLoading] = useState(true);
   const [isProductsLoading, setIsProductsLoading] = useState(true);
+  const [isCreateLoading, setIsCreateLoading] = useState(false);
   const [isUpdateModalActive, setIsUpdateModalActive] = useState(false);
   const [isCreateModalActive, setIsCreateModalActive] = useState(false);
   const [updatingProduct, setUpdatingProduct] = useState<ProductType>();
+  const [creatingProductsData, setCreatingProductsData] = useState<
+    ProductType[]
+  >([
+    {
+      id: Date.now(),
+      name: "",
+      quantity: NaN,
+      price: NaN,
+    },
+  ]);
+  const { productsData, setProductsData } = useProducts();
 
   const clearSearchValue = () => setSearchValue("");
 
@@ -76,11 +95,16 @@ const Main = () => {
 
   const handleSearchValueChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-    if (e.target.value) {
-      await fetchProductsSearch(e.target.value);
+  };
+
+  const loadProducts = async () => {
+    setIsProductsLoading(true);
+    if (debouncedSearch) {
+      await fetchProductsSearch(debouncedSearch);
     } else {
       await fetchProducts();
     }
+    setIsProductsLoading(false);
   };
 
   useEffect(() => {
@@ -88,8 +112,8 @@ const Main = () => {
   }, []);
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    loadProducts();
+  }, [debouncedSearch]);
 
   const handleToggleUpdateModal = () => {
     setIsUpdateModalActive((prevState) => !prevState);
@@ -112,6 +136,65 @@ const Main = () => {
     );
   };
 
+  const handleCreatingProductDataChange = (
+    productId: number,
+    field: string,
+    value: string | number,
+  ) => {
+    setCreatingProductsData((prevState) =>
+      prevState.map((product) =>
+        product.id === productId ? { ...product, [field]: value } : product,
+      ),
+    );
+  };
+
+  const handleCreateMore = () => {
+    setCreatingProductsData((prevState) => [
+      ...prevState,
+      {
+        id: Date.now(),
+        name: "",
+        quantity: NaN,
+        price: NaN,
+      },
+    ]);
+  };
+
+  const handleRemoveCreatedClick = (id: number) => {
+    setCreatingProductsData(() =>
+      creatingProductsData.filter((p) => p.id !== id),
+    );
+  };
+
+  const fetchCreateProducts = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsCreateLoading(true);
+    const productsDataNoId = creatingProductsData.map((p) => {
+      const { id, ...rest } = p;
+      return rest;
+    });
+
+    try {
+      const res = await postProducts(token, productsDataNoId);
+      // const res = await postProductsDev(token, productsDataNoId);
+      setProductsData((prevState) => [...prevState, ...res]);
+      setCreatingProductsData([
+        {
+          id: Date.now(),
+          name: "",
+          quantity: NaN,
+          price: NaN,
+        },
+      ]);
+      setIsCreateLoading(false);
+      handleToggleCreateModal();
+    } catch (err) {
+      setIsCreateLoading(false);
+      throw err;
+    }
+  };
+
   useEffect(() => {
     if (isUpdateModalActive || isCreateModalActive) {
       document.body.style.overflow = "hidden";
@@ -131,7 +214,7 @@ const Main = () => {
             <Description
               title={"Product Table"}
               description={
-                "Here you will find a table of products. You can view all items in stock using the table below. For convenience, you can search for matches by name, enter part of the product name and only matches will remain in the table. To add an item, click on the button in the top right corner."
+                "Here you will find a table of products. You can view all items in stock using the table below. For convenience, you can search for matches by name, enter part of the product name and only matches will remain in the table."
               }
             />
             <Button className={styles.btn} onClick={handleToggleCreateModal}>
@@ -194,7 +277,15 @@ const Main = () => {
           />
         )}
         {isCreateModalActive && (
-          <CreateProductsModal toggleModal={handleToggleCreateModal} />
+          <CreateProductsModal
+            toggleModal={handleToggleCreateModal}
+            isLoading={isCreateLoading}
+            handleSubmit={fetchCreateProducts}
+            createdProductsData={creatingProductsData}
+            addMore={handleCreateMore}
+            removeClick={handleRemoveCreatedClick}
+            productDataChange={handleCreatingProductDataChange}
+          />
         )}
       </main>
     </AuthRequired>

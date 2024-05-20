@@ -7,6 +7,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  font-size: var(--sz-xl);
+  line-height: var(--lnh-xl);
+  font-weight: var(--font-medium);
 
   .title {
     font-size: var(--sz-md);
@@ -18,11 +21,5 @@
   .skeleton {
     height: var(--lnh-xl);
     width: var(--w-skeleton);
-  }
-
-  .value {
-    font-size: var(--sz-xl);
-    line-height: var(--lnh-xl);
-    font-weight: var(--font-medium);
   }
 }

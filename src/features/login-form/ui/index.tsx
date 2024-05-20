@@ -37,7 +37,6 @@ export const LoginForm = () => {
     try {
       const res = await postLogin(payload);
       // const res = await postLoginDev(payload);
-      console.log("login res:", res);
       login(res.access_token);
       setIsLoading(false);
       setError(false);

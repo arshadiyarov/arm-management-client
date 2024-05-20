@@ -2,7 +2,12 @@
 
 import styles from "./styles.module.scss";
 import { AuthRequired } from "processes";
-import { Description, HistoryType, TokenStorageHelper } from "shared";
+import {
+  Description,
+  HistoryType,
+  TokenStorageHelper,
+  useDebounce,
+} from "shared";
 import { Table } from "widgets";
 import { ChangeEvent, useEffect, useState } from "react";
 import {
@@ -16,6 +21,7 @@ const History = () => {
   const token = TokenStorageHelper.getToken();
   const [isLoading, setIsLoading] = useState(true);
   const [searchValue, setSearchValue] = useState("");
+  const debouncedSearch = useDebounce(searchValue);
   const [historyData, setHistoryData] = useState<HistoryType[]>([]);
 
   const handleClearSearchValue = () => {
@@ -52,16 +58,19 @@ const History = () => {
 
   const handleSearchValueChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-    if (e.target.value) {
-      await fetchHistorySearch(e.target.value);
+  };
+
+  const loadHistory = async () => {
+    if (debouncedSearch) {
+      await fetchHistorySearch(debouncedSearch);
     } else {
       await fetchHistory();
     }
   };
 
   useEffect(() => {
-    fetchHistory();
-  }, []);
+    loadHistory();
+  }, [debouncedSearch]);
 
   return (
     <AuthRequired>

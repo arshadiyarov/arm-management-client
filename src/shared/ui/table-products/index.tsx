@@ -2,6 +2,7 @@ import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { CURRENCY, TableSkeleton } from "shared";
 import React from "react";
+import classNames from "classnames";
 
 export const TableProducts = ({
   productsData,
@@ -26,6 +27,12 @@ export const TableProducts = ({
       <tbody className={styles.tbody}>
         {isLoading ? (
           <TableSkeleton />
+        ) : !productsData.length ? (
+          <tr className={styles.tr}>
+            <td className={styles.td}></td>
+            <td className={styles.td}>Products not found</td>
+            <td className={styles.td}></td>
+          </tr>
         ) : (
           productsData.map((i) => (
             <tr

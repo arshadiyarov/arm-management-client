@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.scss";
 import { AppContainer } from "processes";
 import "react-loading-skeleton/dist/skeleton.css";
+import { ProductsProvider } from "processes/products-context";
 
 export const metadata: Metadata = {
   title: "Arm Management",
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppContainer>{children}</AppContainer>
+        <ProductsProvider>
+          <AppContainer>{children}</AppContainer>
+        </ProductsProvider>
       </body>
     </html>
   );

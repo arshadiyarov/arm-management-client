@@ -3,11 +3,22 @@ import { IProps } from "./props";
 import classNames from "classnames";
 
 export const Input = (props: IProps) => {
-  const { onChange, value, placeholder, type, className, ...otherProps } =
-    props;
+  const {
+    onChange,
+    value,
+    placeholder,
+    type,
+    isLoading = false,
+    className,
+    ...otherProps
+  } = props;
   return (
     <input
-      className={classNames(styles.input, className)}
+      className={classNames(
+        styles.input,
+        isLoading && styles.loading,
+        className,
+      )}
       type={type}
       value={value}
       onChange={onChange}

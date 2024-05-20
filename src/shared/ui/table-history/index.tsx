@@ -31,6 +31,13 @@ export const TableHistory = ({ historyData, isLoading }: IProps) => {
       <tbody className={styles.tbody}>
         {isLoading ? (
           <TableSkeleton columns={4} />
+        ) : !historyData.length ? (
+          <tr className={styles.tr}>
+            <td className={styles.td}></td>
+            <td className={styles.td}>Products</td>
+            <td className={styles.td}>not found</td>
+            <td className={styles.td}></td>
+          </tr>
         ) : (
           historyData.map((i) => (
             <tr

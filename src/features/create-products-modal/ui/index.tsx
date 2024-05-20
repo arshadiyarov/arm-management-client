@@ -1,49 +1,17 @@
-"use client";
-
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
-import { Button, Input, ProductType, RequiredStar } from "shared";
+import { Button, Input, RequiredStar } from "shared";
 import classNames from "classnames";
-import { useState } from "react";
 
-export const CreateProductsModal = ({ toggleModal }: IProps) => {
-  const [productsData, setProductsData] = useState<ProductType[]>([
-    {
-      id: +new Date(),
-      name: "",
-      quantity: NaN,
-      price: NaN,
-    },
-  ]);
-
-  const handleProductDataChange = (
-    productId: number,
-    field: string,
-    value: string | number,
-  ) => {
-    setProductsData((prevState) =>
-      prevState.map((product) =>
-        product.id === productId ? { ...product, [field]: value } : product,
-      ),
-    );
-  };
-
-  const handleAddMoreClick = () => {
-    setProductsData((prevState) => [
-      ...prevState,
-      {
-        id: +new Date(),
-        name: "",
-        quantity: NaN,
-        price: NaN,
-      },
-    ]);
-  };
-
-  const handleRemoveClick = (id: number) => {
-    setProductsData(() => productsData.filter((p) => p.id !== id));
-  };
-
+export const CreateProductsModal = ({
+  toggleModal,
+  isLoading,
+  handleSubmit,
+  createdProductsData,
+  removeClick,
+  addMore,
+  productDataChange,
+}: IProps) => {
   return (
     <div className={styles.container} onClick={toggleModal}>
       <div
@@ -77,7 +45,7 @@ export const CreateProductsModal = ({ toggleModal }: IProps) => {
             </svg>
           </Button>
         </div>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.inputs_container}>
             <div className={styles.labels}>
               <label className={styles.fullWidth} htmlFor="name">
@@ -98,47 +66,51 @@ export const CreateProductsModal = ({ toggleModal }: IProps) => {
                   <RequiredStar />
                 </p>
               </label>
-              {productsData.length > 1 && <div className="w-[36px]" />}
+              {createdProductsData.length > 1 && <div className="w-[36px]" />}
             </div>
-            {productsData.map((p) => (
+            {createdProductsData.map((p) => (
               <div key={p.id} className={styles.inputsWithRemove}>
-                <div className={styles.inputs}>
+                <div className={classNames(styles.inputs)}>
                   <Input
                     className={styles.fullWidth}
                     required
+                    isLoading={isLoading}
                     id={`name_${p.id}`}
                     value={p.name}
                     onChange={(e) =>
-                      handleProductDataChange(p.id, "name", e.target.value)
+                      productDataChange(p.id, "name", e.target.value)
                     }
                   />
                   <Input
                     className={styles.halfWidth}
                     required
+                    isLoading={isLoading}
                     type="number"
                     id={`quantity_${p.id}`}
                     value={p.quantity}
                     onChange={(e) =>
-                      handleProductDataChange(p.id, "quantity", e.target.value)
+                      productDataChange(p.id, "quantity", e.target.value)
                     }
                   />
                   <Input
                     className={styles.halfWidth}
                     required
+                    isLoading={isLoading}
                     type="number"
                     id={`price_${p.id}`}
                     value={p.price}
                     onChange={(e) =>
-                      handleProductDataChange(p.id, "price", e.target.value)
+                      productDataChange(p.id, "price", e.target.value)
                     }
                   />
                 </div>
-                {productsData.length > 1 && (
+                {createdProductsData.length > 1 && (
                   <Button
                     type="button"
                     mode="icon"
+                    disabled={isLoading}
                     className={styles.removeBtn}
-                    onClick={() => handleRemoveClick(p.id)}
+                    onClick={() => removeClick(p.id)}
                   >
                     <svg
                       stroke="currentColor"
@@ -177,8 +149,9 @@ export const CreateProductsModal = ({ toggleModal }: IProps) => {
             <Button
               type="button"
               mode="ghost"
+              disabled={isLoading}
               className={styles.addBtn}
-              onClick={handleAddMoreClick}
+              onClick={addMore}
             >
               <svg
                 stroke="currentColor"
@@ -200,7 +173,9 @@ export const CreateProductsModal = ({ toggleModal }: IProps) => {
               <p>More</p>
             </Button>
           </div>
-          <Button size="md">Create</Button>
+          <Button disabled={isLoading} size="md">
+            Create
+          </Button>
         </form>
       </div>
     </div>
