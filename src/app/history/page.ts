@@ -1,1 +1,1 @@
-export { History as default } from "_pages";
+export { History as default } from "_pages/history";

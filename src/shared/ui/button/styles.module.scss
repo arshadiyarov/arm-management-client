@@ -1,6 +1,11 @@
 .button {
   width: 100%;
   transition: var(--transition-default);
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
 
 .sm {
@@ -28,6 +33,16 @@
   background-color: rgb(var(--clr-primary));
   color: rgb(var(--clr-secondary));
 
+  &:disabled {
+    &:hover {
+      background-color: rgb(var(--clr-primary));
+    }
+
+    &:active {
+      background-color: rgb(var(--clr-primary));
+    }
+  }
+
   &:hover {
     background-color: rgb(var(--clr-primary-hover));
   }
@@ -42,6 +57,16 @@
   color: rgb(var(--clr-type-black));
   border: var(--border-primary);
 
+  &:disabled {
+    &:hover {
+      background-color: rgb(var(--clr-secondary));
+    }
+
+    &:active {
+      background-color: rgb(var(--clr-secondary));
+    }
+  }
+
   &:hover {
     background-color: rgb(var(--clr-secondary-hover));
   }
@@ -54,6 +79,16 @@
 .ghost {
   background-color: rgb(var(--clr-secondary));
   color: rgb(var(--clr-type-black));
+
+  &:disabled {
+    &:hover {
+      background-color: rgb(var(--clr-secondary));
+    }
+
+    &:active {
+      background-color: rgb(var(--clr-secondary));
+    }
+  }
 
   &:hover {
     background-color: rgb(var(--clr-secondary-hover));
@@ -68,6 +103,12 @@
   background-color: rgb(var(--clr-secondary));
   color: rgb(var(--clr-type-black));
 
+  &:disabled {
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   &:hover {
     text-decoration: underline;
   }
@@ -77,6 +118,16 @@
   width: fit-content;
   background-color: rgb(var(--clr-primary));
   color: rgb(var(--clr-secondary));
+
+  &:disabled {
+    &:hover {
+      background-color: rgb(var(--clr-primary));
+    }
+
+    &:active {
+      background-color: rgb(var(--clr-primary));
+    }
+  }
 
   &:hover {
     background-color: rgb(var(--clr-primary-hover));
@@ -89,6 +140,16 @@
 
 .icon {
   width: fit-content;
+
+  &:disabled {
+    &:hover {
+      background-color: rgba(255, 255, 255, 0);
+    }
+
+    &:active {
+      background-color: rgba(255, 255, 255, 0);
+    }
+  }
 
   &:hover {
     background-color: rgb(var(--clr-secondary-hover));

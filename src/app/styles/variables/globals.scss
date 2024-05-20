@@ -2,12 +2,14 @@
   --clr-primary: 59, 130, 246;
   --clr-primary-hover: 51, 124, 245;
   --clr-primary-active: 29 112 248;
+  --clr-primary-disabled: 85, 144, 241;
   --clr-secondary: 255, 255, 255;
   --clr-secondary-hover: 245 245 245;
   --clr-secondary-active: 235 235 235;
   --clr-type-black: 17, 24, 39;
   --clr-type-gray: 107, 114, 128;
   --clr-type-red: 245, 0, 0;
+  --clr-type-green: 38, 162, 18;
   --clr-bg-primary: 243, 244, 246;
   --clr-bg-secondary: 255, 255, 255;
   --clr-bg-thead: 247, 248, 249;
@@ -16,9 +18,10 @@
   --clr-border-white: 229, 231, 235;
   --clr-scroll: 193, 193, 193;
 
+  --gradient-bg-login-img: linear-gradient(180deg, #e91e63, #03a9f4);
+
   --sz-sm: 14px;
   --sz-md: 18px;
-  --sz-logo: 20px;
   --sz-lg: 24px;
   --sz-xl: 30px;
 
@@ -57,7 +60,6 @@
 
   --w-navbar: 68px;
   --w-navbar-expanded: 268px;
-  --w-login-form: 400px;
   --w-modal: 550px;
   --w-skeleton: 55%;
 

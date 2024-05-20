@@ -29,7 +29,12 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
         className={classNames(styles.content, isNavExpanded && styles.expanded)}
       >
         <div className={styles.top}>
-          <Button mode={"icon"} size={"md"} onClick={toggleNav}>
+          <Button
+            uppercase={false}
+            mode={"icon"}
+            size={"md"}
+            onClick={toggleNav}
+          >
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -61,6 +66,7 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
                 <li key={i.id} className={styles.li}>
                   <Button
                     className={styles.btn}
+                    uppercase={false}
                     size={"md"}
                     mode={
                       isNavExpanded
@@ -87,6 +93,7 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
                   <Button
                     className={styles.btn}
                     size={"md"}
+                    uppercase={false}
                     mode={
                       isNavExpanded
                         ? isNavButtonActive(i.path)
@@ -107,6 +114,7 @@ export const Navbar = ({ isNavExpanded, toggleNav }: IProps) => {
                 <Button
                   className={classNames(styles.btn, styles.logout)}
                   size={"md"}
+                  uppercase={false}
                   mode={isNavExpanded ? "link" : "icon"}
                   onClick={handleLogoutClick}
                 >

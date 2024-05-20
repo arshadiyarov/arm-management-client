@@ -8,19 +8,23 @@ export const Button = (props: PropsWithChildren<IProps>) => {
     children,
     size = "sm",
     mode = "primary",
+    disabled,
     className,
     onClick,
     type,
+    uppercase = true,
   } = props;
   return (
     <button
       type={type}
+      disabled={disabled}
       onClick={onClick}
       className={classNames(
         styles.button,
         styles[mode],
         styles[size],
         className,
+        `${uppercase && "uppercase"}`,
       )}
     >
       {children}

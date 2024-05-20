@@ -8,4 +8,5 @@ export interface IProps
   > {
   size?: SizeType;
   mode?: ButtonModeType;
+  uppercase?: boolean;
 }

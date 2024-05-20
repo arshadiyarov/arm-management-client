@@ -1,1 +1,1 @@
-export { Login as default } from "_pages";
+export { Login as default } from "_pages/login";

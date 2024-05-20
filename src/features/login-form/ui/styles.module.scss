@@ -4,8 +4,97 @@
   gap: 44px;
 
   .inputs {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 12px;
+
+    .errorMsg {
+      position: absolute;
+      bottom: -24px;
+      left: 8px;
+      font-size: var(--sz-sm);
+      line-height: var(--lnh-sm);
+      color: rgb(var(--clr-type-red));
+    }
+
+    .label {
+      p {
+        font-size: var(--sz-sm);
+        line-height: var(--lnh-sm);
+        margin-bottom: 4px;
+      }
+
+      .input {
+        background-color: rgb(var(--clr-bg-primary));
+        transition: var(--transition-default);
+        border: var(--border-secondary);
+        border-radius: var(--r-sm);
+        padding-right: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+
+        &.loading {
+          .input {
+            color: rgb(var(--clr-type-gray));
+          }
+        }
+
+        &.error {
+          &.password {
+            border: var(--border-secondary);
+            border-color: rgb(var(--clr-type-red));
+            color: rgb(var(--clr-type-red));
+          }
+        }
+
+        &.success {
+          border-color: rgb(var(--clr-type-green));
+          color: rgb(var(--clr-type-gray));
+          cursor: not-allowed;
+
+          input {
+            cursor: not-allowed;
+          }
+
+          .successIcon {
+            color: rgb(var(--clr-type-green));
+          }
+        }
+
+        &:focus-within {
+          border-color: rgb(var(--clr-primary));
+        }
+
+        input {
+          width: 100%;
+          background-color: rgb(var(--clr-bg-primary));
+          padding: var(--p-sm);
+          border-radius: var(--r-sm);
+        }
+
+        @media (max-width: 768px) {
+          background-color: rgb(var(--clr-bg-secondary));
+
+          input {
+            background-color: rgb(var(--clr-bg-secondary));
+          }
+        }
+
+        .options {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          user-select: none;
+          color: rgb(var(--clr-type-black));
+
+          label {
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
 }
