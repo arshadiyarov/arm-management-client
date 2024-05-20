@@ -3,4 +3,8 @@
   padding: var(--p-sm);
   border-radius: var(--r-sm);
   border: var(--border-secondary);
+
+  &:active, &:focus {
+    border-color: rgb(var(--clr-primary));
+  }
 }

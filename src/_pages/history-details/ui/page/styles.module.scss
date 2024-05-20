@@ -1,5 +1,14 @@
 .container {
-  padding-top: var(--p-top-main);
+  margin-top: var(--p-top-main);
+
+  @media (max-width: 508px) {
+    margin-top: var(--p-top-main-mobile);
+    margin-bottom: var(--p-top-main);
+  }
+
+  @media (max-width: 263px) {
+    margin-top: var(--p-top-main-mobile-tiny);
+  }
 
   .content {
     display: flex;
@@ -21,8 +30,14 @@
 
     .info {
       display: flex;
-      align-items: center;
-      gap: 52px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+
+      div {
+        min-width: fit-content;
+        flex: 1;
+      }
     }
   }
 }

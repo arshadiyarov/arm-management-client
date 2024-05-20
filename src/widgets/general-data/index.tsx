@@ -29,7 +29,7 @@ export const GeneralData = ({
         <div className={styles.left}>
           <div className={styles.left_inner}>
             <p>User:</p>
-            <p>Buyer:</p>
+            {historyData.buyer && <p>Buyer:</p>}
             <p>Info:</p>
           </div>
           <div className={styles.right_inner}>
@@ -42,11 +42,7 @@ export const GeneralData = ({
             ) : (
               <>
                 <p>{historyData.username}</p>
-                {historyData.buyer ? (
-                  <p>{historyData.buyer}</p>
-                ) : (
-                  <p className={styles.empty}>Empty</p>
-                )}
+                {historyData.buyer && <p>{historyData.buyer}</p>}
                 {historyData.extra_info ? (
                   <p>
                     {truncateString(historyData.extra_info)}

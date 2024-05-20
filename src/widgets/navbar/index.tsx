@@ -158,6 +158,7 @@ export const Navbar = ({
             {navTopContent.map((i) => (
               <li key={i.id} className={styles.li}>
                 <Button
+                  size={"lg"}
                   mode={isNavButtonActive(i.path) ? "icon-primary" : "icon"}
                   className={styles.btn}
                   onClick={() => handleRouting(i.path)}
@@ -168,6 +169,7 @@ export const Navbar = ({
             ))}
             <li className={styles.li}>
               <Button
+                size={"lg"}
                 mode="icon"
                 className={classNames(styles.btn, styles.create)}
                 onClick={toggleCreateModal}
@@ -200,6 +202,7 @@ export const Navbar = ({
             {navBottomContent.map((i) => (
               <li key={i.id} className={styles.li}>
                 <Button
+                  size={"lg"}
                   mode={isNavButtonActive(i.path) ? "icon-primary" : "icon"}
                   className={styles.btn}
                   onClick={() => handleRouting(i.path)}
@@ -210,6 +213,7 @@ export const Navbar = ({
             ))}
             <li className={styles.li}>
               <Button
+                size={"lg"}
                 mode={"icon"}
                 className={classNames(styles.btn, styles.logout)}
                 onClick={handleLogoutClick}

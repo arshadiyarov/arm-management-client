@@ -12,6 +12,11 @@
     line-height: var(--lnh-md);
     border-bottom: var(--border-secondary);
 
+    @media (max-width: 640px) {
+      font-size: var(--sz-sm);
+      line-height: var(--lnh-sm);
+    }
+
     .th {
       font-weight: var(--font-medium);
       padding: 12px 0;
@@ -23,6 +28,10 @@
     font-size: var(--sz-md);
     line-height: var(--lnh-md);
 
+    @media (max-width: 640px) {
+      font-size: var(--sz-sm);
+      line-height: var(--lnh-sm);
+    }
 
     .tr {
       cursor: pointer;

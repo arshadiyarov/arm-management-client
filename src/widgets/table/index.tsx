@@ -83,6 +83,7 @@ export const Table = ({
   return (
     <div className={classNames(styles.content, "space-y-3")}>
       <div className={styles.top}>
+        {limit && limitChange && <LimitOptions limitChange={limitChange} />}
         <p>{title}</p>
         {search && clearSearchValue && (
           <InputSearch
@@ -94,11 +95,6 @@ export const Table = ({
         )}
       </div>
       <div className={styles.table_wrapper}>{returnTable(mode)}</div>
-      {limit && pagination && (
-        <div className={styles.bottom}>
-          {limitChange && <LimitOptions limitChange={limitChange} />}
-        </div>
-      )}
     </div>
   );
 };

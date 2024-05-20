@@ -83,10 +83,6 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          border-radius: var(--r-lg);
-
-          &.create {
-          }
 
           &.logout {
             color: rgb(var(--clr-type-red));

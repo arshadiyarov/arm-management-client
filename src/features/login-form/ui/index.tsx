@@ -4,10 +4,11 @@ import styles from "./styles.module.scss";
 import { Button } from "shared";
 import { FormEvent, useEffect, useState } from "react";
 import { PayloadModel } from "../model";
-import { postLogin } from "../api";
+import { postLogin, postLoginDev } from "../api";
 import { useRouter } from "next/navigation";
 import { useAuth } from "processes";
 import classNames from "classnames";
+import axios from "axios";
 
 export const LoginForm = () => {
   const { login } = useAuth();
@@ -35,6 +36,8 @@ export const LoginForm = () => {
     setIsLoading(true);
     try {
       const res = await postLogin(payload);
+      // const res = await postLoginDev(payload);
+      console.log("login res:", res);
       login(res.access_token);
       setIsLoading(false);
       setError(false);
@@ -47,6 +50,7 @@ export const LoginForm = () => {
       setSuccess(false);
       setPayload((prevState) => ({ ...prevState, password: "" }));
       setError(true);
+      throw err;
     }
   };
 

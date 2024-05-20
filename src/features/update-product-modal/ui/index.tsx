@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { Button, Input, RequiredStar, TokenStorageHelper } from "shared";
 import { FormEvent, useState } from "react";
-import { putUpdateProduct } from "../api";
+import { putUpdateProduct, putUpdateProductDev } from "../api";
 import classNames from "classnames";
 import { ProductUpdateModel } from "../model";
 
@@ -49,6 +49,7 @@ export const UpdateProductModal = ({
   const fetchUpdateProduct = async (id: number, body: ProductUpdateModel) => {
     try {
       await putUpdateProduct(token, id, body);
+      // await putUpdateProductDev(token, id, body);
       const updatedProduct = {
         ...productData,
         ...body.item_update,

@@ -14,7 +14,7 @@ export const InputSearch = (props: IProps) => {
   } = props;
 
   return (
-    <div className={styles.content}>
+    <label htmlFor="search" className={styles.content}>
       <svg
         stroke="currentColor"
         fill="currentColor"
@@ -40,6 +40,7 @@ export const InputSearch = (props: IProps) => {
         ></path>
       </svg>
       <input
+        id="search"
         type={type}
         value={value}
         onChange={onChange}
@@ -68,6 +69,6 @@ export const InputSearch = (props: IProps) => {
           </svg>
         </button>
       )}
-    </div>
+    </label>
   );
 };

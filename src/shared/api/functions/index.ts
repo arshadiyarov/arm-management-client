@@ -1,6 +1,6 @@
-export { baseFetchAsync } from "./base-fetch";
-export { getAsync } from "./get";
-export { postAsync } from "./post";
-export { putAsync } from "./put";
-export { patchAsync } from "./patch";
-export { deleteAsync } from "./delete";
+export { baseFetchAsync, baseFetchAsyncDev } from "./base-fetch";
+export { getAsync, getAsyncDev } from "./get";
+export { postAsync, postAsyncDev } from "./post";
+export { putAsync, putAsyncDev } from "./put";
+export { patchAsync, patchAsyncDev } from "./patch";
+export { deleteAsync, deleteAsyncDev } from "./delete";

@@ -2,17 +2,9 @@
 
 import styles from "./styles.module.scss";
 import { useParams, useRouter } from "next/navigation";
-import {
-  ActionType,
-  AfterChangeType,
-  BeforeChangeType,
-  Button,
-  HistoryType,
-  ReadMoreModal,
-  TokenStorageHelper,
-} from "shared";
+import { Button, HistoryType, ReadMoreModal, TokenStorageHelper } from "shared";
 import { GeneralData, InfoCard, Table } from "widgets";
-import { getHistory } from "_pages/history-details/api";
+import { getHistory, getHistoryDev } from "_pages/history-details/api";
 import { useEffect, useState } from "react";
 import { AuthRequired } from "processes";
 
@@ -50,6 +42,7 @@ const HistoryDetails = () => {
     setIsLoading(true);
     try {
       const res = await getHistory(token);
+      // const res = await getHistoryDev(token);
       const foundItem = res.find((i) => i.id === parseInt(historyId as string));
       if (foundItem) {
         setFoundHistoryData(foundItem);
@@ -108,7 +101,7 @@ const HistoryDetails = () => {
                 isLoading={isLoading}
               />
               <InfoCard
-                title={"Number of unique products"}
+                title={"Unique products"}
                 value={foundHistoryData?.total_unique_items_count}
                 isLoading={isLoading}
               />

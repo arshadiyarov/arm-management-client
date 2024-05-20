@@ -3,6 +3,11 @@
 
   @media (max-width: 508px) {
     margin-top: var(--p-top-main-mobile);
+    margin-bottom: var(--p-top-main);
+  }
+
+  @media (max-width: 263px) {
+    margin-top: var(--p-top-main-mobile-tiny);
   }
 
   .content {
@@ -21,7 +26,7 @@
         max-width: 55%;
 
         @media (max-width: 768px) {
-            max-width: 100%;
+          max-width: 100%;
         }
       }
 
@@ -43,6 +48,7 @@
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
+      gap: 12px;
 
       div {
         min-width: fit-content;

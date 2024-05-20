@@ -17,6 +17,8 @@
   --clr-border-black: 107, 114, 128;
   --clr-border-white: 229, 231, 235;
   --clr-scroll: 193, 193, 193;
+  --clr-scroll-hover: 173, 173, 173;
+  --clr-scroll-active: 153, 153, 153;
 
   --gradient-bg-login-img: linear-gradient(180deg, #e91e63, #03a9f4);
 
@@ -57,14 +59,15 @@
   --p-icon-md: 10px;
   --p-icon-lg: 12px;
   --p-top-main: 60px;
-  --p-top-main-mobile: 100px;
+  --p-top-main-mobile: 108px;
+  --p-top-main-mobile-tiny: 160px;
 
   --w-navbar: 68px;
   --w-navbar-expanded: 268px;
   --w-modal: 550px;
   --w-skeleton: 55%;
 
-  --h-max-modal: calc(100vh - 10%);
+  --h-max-modal: calc(100vh - 30%);
 
   --z-index-header: 1;
   --z-index-navbar: 2;

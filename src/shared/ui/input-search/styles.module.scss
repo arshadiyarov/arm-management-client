@@ -1,18 +1,31 @@
 .content {
-  padding: 4px 8px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border: var(--border-secondary);
-  background-color: rgb(var(--clr-secondary));
-  border-radius: var(--r-sm);
+  position: relative;
   font-size: var(--sz-md);
 
   .icon {
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    left: 8px;
     color: rgb(var(--clr-type-gray));
   }
 
   .input {
     width: 100%;
+    padding: 4px 32px;
+    border: var(--border-secondary);
+    background-color: rgb(var(--clr-secondary));
+    border-radius: var(--r-sm);
+
+    &:active, &:focus {
+      border-color: rgb(var(--clr-primary));
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    right: 8px;
   }
 }

@@ -16,7 +16,10 @@
   .main {
     padding-top: 12px;
     display: flex;
-    flex-wrap: wrap-reverse;
+
+    @media (max-width: 768px) {
+      flex-wrap: wrap-reverse;
+    }
 
     .left, .right {
       display: flex;
@@ -25,6 +28,10 @@
       justify-content: center;
       gap: 12px;
       flex: 1;
+
+      @media (max-width: 768px) {
+        justify-content: flex-start;
+      }
 
       .left_inner {
         min-width: 60px;

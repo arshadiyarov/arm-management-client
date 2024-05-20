@@ -5,7 +5,12 @@ import { AuthRequired } from "processes";
 import { Description, HistoryType, TokenStorageHelper } from "shared";
 import { Table } from "widgets";
 import { ChangeEvent, useEffect, useState } from "react";
-import { getHistory, getHistorySearch } from "_pages/history/api";
+import {
+  getHistory,
+  getHistoryDev,
+  getHistorySearch,
+  getHistorySearchDev,
+} from "_pages/history/api";
 
 const History = () => {
   const token = TokenStorageHelper.getToken();
@@ -21,6 +26,7 @@ const History = () => {
     setIsLoading(true);
     try {
       const res = await getHistory(token, "0", limit);
+      // const res = await getHistoryDev(token, "0", limit);
       setIsLoading(false);
       setHistoryData(res);
     } catch (err) {
@@ -36,6 +42,7 @@ const History = () => {
     setIsLoading(true);
     try {
       const res = await getHistorySearch(token, val);
+      // const res = await getHistorySearchDev(token, val);
       setHistoryData(res);
       setIsLoading(false);
     } catch (err) {

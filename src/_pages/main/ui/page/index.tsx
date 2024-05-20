@@ -6,7 +6,14 @@ import { Description, TokenStorageHelper } from "shared";
 import { Button } from "shared";
 import { InfoCard, Table } from "widgets";
 import { ChangeEvent, useEffect, useState } from "react";
-import { getProducts, getProductsSearch, getSummary } from "_pages/main/api";
+import {
+  getProducts,
+  getProductsDev,
+  getProductsSearch,
+  getProductsSearchDev,
+  getSummary,
+  getSummaryDev,
+} from "_pages/main/api";
 import { ProductType, SummaryType } from "shared";
 import { CreateProductsModal, UpdateProductModal } from "features";
 
@@ -31,6 +38,7 @@ const Main = () => {
     setIsSummaryLoading(true);
     try {
       const res = await getSummary(token);
+      // const res = await getSummaryDev(token);
       setSummaryData((prevState) => ({ ...prevState, ...res }));
       setIsSummaryLoading(false);
     } catch (err) {
@@ -42,6 +50,7 @@ const Main = () => {
     setIsProductsLoading(true);
     try {
       const res = await getProducts(token, "0", limit);
+      // const res = await getProductsDev(token, "0", limit);
       setProductsData(res);
       setIsProductsLoading(false);
     } catch (err) {
@@ -57,6 +66,7 @@ const Main = () => {
     setIsProductsLoading(true);
     try {
       const res = await getProductsSearch(token, val);
+      // const res = await getProductsSearchDev(token, val);
       setProductsData(res);
       setIsProductsLoading(false);
     } catch (err) {

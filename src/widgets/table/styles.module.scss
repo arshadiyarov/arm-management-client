@@ -1,5 +1,6 @@
 .content {
   .top {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -9,6 +10,10 @@
       align-self: center;
       font-size: var(--sz-lg);
       font-weight: var(--font-semibold);
+    }
+
+    label {
+      width: 250px;
     }
   }
 
@@ -21,13 +26,7 @@
 
   .bottom {
     width: 100%;
-    padding: 0 8px;
     display: flex;
     align-items: center;
-
-    &:first-child {
-      align-self: flex-end;
-      justify-self: flex-end;
-    }
   }
 }

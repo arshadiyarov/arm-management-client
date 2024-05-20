@@ -1,7 +1,19 @@
 .container {
   margin-top: var(--p-top-main);
 
+  @media (max-width: 508px) {
+    margin-top: var(--p-top-main-mobile);
+    margin-bottom: var(--p-top-main);
+  }
+
+  @media (max-width: 263px) {
+    margin-top: var(--p-top-main-mobile-tiny);
+  }
+
   .content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     padding: 20px;
 
     .top {
@@ -10,6 +22,9 @@
       justify-content: space-between;
       max-width: 55%;
 
+      @media (max-width: 768px) {
+        max-width: 100%;
+      }
     }
   }
 }
