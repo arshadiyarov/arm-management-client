@@ -35,8 +35,9 @@ export const LoginForm = () => {
   const fetchLogin = async () => {
     setIsLoading(true);
     try {
-      const res = await postLogin(payload);
-      // const res = await postLoginDev(payload);
+      // const res = await postLogin(payload);
+      // DEV FETCH
+      const res = await postLoginDev(payload);
       login(res.access_token);
       setIsLoading(false);
       setError(false);

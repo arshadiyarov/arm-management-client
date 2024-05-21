@@ -41,8 +41,9 @@ const HistoryDetails = () => {
   const findHistoryItemById = async () => {
     setIsLoading(true);
     try {
-      const res = await getHistory(token);
-      // const res = await getHistoryDev(token);
+      // DEV FETCH
+      // const res = await getHistory(token);
+      const res = await getHistoryDev(token);
       const foundItem = res.find((i) => i.id === parseInt(historyId as string));
       if (foundItem) {
         setFoundHistoryData(foundItem);

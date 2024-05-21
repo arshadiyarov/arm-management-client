@@ -80,8 +80,9 @@ export const AppContainer = ({ children }: PropsWithChildren<IProps>) => {
     });
 
     try {
-      const res = await postProducts(token, productsDataNoId);
-      // const res = await postProductsDev(token, productsDataNoId);
+      // const res = await postProducts(token, productsDataNoId);
+      // DEV FETCH
+      const res = await postProductsDev(token, productsDataNoId);
       setProductsData((prevState) => [...prevState, ...res]);
       setCreatingProductsData([
         {

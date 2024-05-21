@@ -67,10 +67,13 @@
   --w-navbar-expanded: 268px;
   --w-modal: 550px;
   --w-skeleton: 55%;
+  --w-filter: 152px;
+  --w-filter-mobile: 100px;
 
   --h-max-modal: calc(100vh - 30%);
 
-  --z-index-header: 1;
-  --z-index-navbar: 2;
-  --z-index-modal: 3;
+  --z-index-filter-dropdown: 1;
+  --z-index-header: 2;
+  --z-index-navbar: 3;
+  --z-index-modal: 4;
 }

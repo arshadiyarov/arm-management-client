@@ -9,7 +9,6 @@ import { usePathname, useRouter } from "next/navigation";
 export const Navbar = ({
   isNavExpanded,
   toggleNav,
-  isCreateModalActive,
   toggleCreateModal,
 }: IProps) => {
   const { logout } = useAuth();

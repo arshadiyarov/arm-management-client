@@ -4,3 +4,4 @@
 // TODO: Pagination for tables
 // TODO: Remake of limit select
 // TODO: Filter in history page
+// TODO: Context for user info

@@ -20,8 +20,10 @@ export interface IProps {
   search?: boolean;
   limit?: boolean;
   pagination?: boolean;
+  filter?: boolean;
   limitChange?: (val: string) => void;
   mode?: TableModeType;
   toggleUpdateModal?: () => void;
   selectProductId?: (id: number) => void;
+  filterChange?: (val: string) => void;
 }

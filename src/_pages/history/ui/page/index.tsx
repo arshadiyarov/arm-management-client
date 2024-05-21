@@ -23,6 +23,11 @@ const History = () => {
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue);
   const [historyData, setHistoryData] = useState<HistoryType[]>([]);
+  const [filterValue, setFilterValue] = useState("");
+
+  const handleFilterChange = (val: string) => {
+    setFilterValue(val);
+  };
 
   const handleClearSearchValue = () => {
     setSearchValue("");
@@ -31,8 +36,9 @@ const History = () => {
   const fetchHistory = async (limit?: string) => {
     setIsLoading(true);
     try {
-      const res = await getHistory(token, "0", limit);
-      // const res = await getHistoryDev(token, "0", limit);
+      // const res = await getHistory(token, "0", limit, filterValue);
+      // DEV FETCH
+      const res = await getHistoryDev(token, "0", limit, filterValue);
       setIsLoading(false);
       setHistoryData(res);
     } catch (err) {
@@ -47,8 +53,9 @@ const History = () => {
   const fetchHistorySearch = async (val: string) => {
     setIsLoading(true);
     try {
-      const res = await getHistorySearch(token, val);
-      // const res = await getHistorySearchDev(token, val);
+      // const res = await getHistorySearch(token, val);
+      // DEV FETCH
+      const res = await getHistorySearchDev(token, val);
       setHistoryData(res);
       setIsLoading(false);
     } catch (err) {
@@ -70,7 +77,7 @@ const History = () => {
 
   useEffect(() => {
     loadHistory();
-  }, [debouncedSearch]);
+  }, [debouncedSearch, filterValue]);
 
   return (
     <AuthRequired>
@@ -92,6 +99,8 @@ const History = () => {
               searchValueChange={handleSearchValueChange}
               clearSearchValue={handleClearSearchValue}
               limitChange={handleLimitChange}
+              filter
+              filterChange={handleFilterChange}
               mode={"history"}
             />
           </div>
