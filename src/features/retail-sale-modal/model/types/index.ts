@@ -4,6 +4,7 @@ export type RetailSaleType = {
 };
 
 type ItemsType = {
+  id: number;
   name: string;
   quantity: number;
 };

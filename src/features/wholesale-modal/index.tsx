@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { WholeSaleType } from "./model/types";
@@ -8,11 +8,15 @@ import {
   Button,
   Input,
   ProductNoPrice,
+  ProductType,
   RequiredStar,
   Textarea,
   TokenStorageHelper,
+  useDebounce,
 } from "shared";
-import { postWholeSale } from "features/wholesale-modal/api";
+import { getItemsSearch, postWholeSale } from "features/wholesale-modal/api";
+import { toast } from "react-toastify";
+import classNames from "classnames";
 
 export const WholesaleModal = ({ toggleModal }: IProps) => {
   const token = TokenStorageHelper.getToken();
@@ -28,15 +32,11 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
       },
     ],
   });
-  // const [wholeSaleData.items, setWholeSaleData] = useState<
-  //   ProductNoPrice[]
-  // >([
-  //   {
-  //     id: Date.now(),
-  //     name: "",
-  //     quantity: NaN,
-  //   },
-  // ]);
+  const [nameInput, setNameInput] = useState("");
+  const debouncedSearch = useDebounce(nameInput);
+  const [suggestData, setSuggestData] = useState<ProductType[]>([]);
+  const [activeInputId, setActiveInputId] = useState<number | null>(null);
+  const suggestionsRef = useRef<HTMLUListElement | null>(null);
 
   const handleSellingDataChange = (
     productId: number,
@@ -67,22 +67,89 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
 
   const fetchWholeSale = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    const hasInvalidData = wholeSaleData.items.some((p) => {
+      if (p.quantity < 1) {
+        toast.error("Something went wrong (check product name or quantity)");
+        setIsLoading(false);
+        return true;
+      }
+      return false;
+    });
+
+    if (hasInvalidData) return;
 
     wholeSaleData.items.forEach((p) => {
       const { id, ...rest } = p;
       return rest;
     });
 
-    setIsLoading(true);
     try {
       await postWholeSale(token, wholeSaleData);
       setIsLoading(false);
+      setWholeSaleData(() => ({
+        buyer: "",
+        extra_info: "",
+        items: [
+          {
+            id: Date.now(),
+            name: "",
+            quantity: NaN,
+          },
+        ],
+      }));
+      toast.success("Successful sale, good job🥳");
       toggleModal();
     } catch (err) {
       setIsLoading(false);
+      toast.error("Something went wrong (check product name or quantity)");
       throw err;
     }
   };
+
+  const handleNameInputChange = async (
+    e: ChangeEvent<HTMLInputElement>,
+    id: number,
+  ) => {
+    setNameInput(e.target.value.trim().toLowerCase());
+    setActiveInputId(id);
+  };
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const res = await getItemsSearch(token, nameInput);
+        setSuggestData(res.slice(0, 7));
+        console.log(res.slice(0, 7));
+      } catch (err) {
+        throw err;
+      }
+    };
+
+    if (debouncedSearch) {
+      fetchSuggestions();
+    } else {
+      setSuggestData([]);
+    }
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node)
+      ) {
+        setSuggestData([]);
+        setActiveInputId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className={styles.container} onClick={toggleModal}>
@@ -120,7 +187,7 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
               Buyer
               <RequiredStar />
             </p>
-            <Input id="buyer" isLoading={isLoading} />
+            <Input id="buyer" required isLoading={isLoading} />
           </label>
           <div>
             <div className={styles.bottomLabels}>
@@ -143,13 +210,37 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
                 // eslint-disable-next-line react/jsx-key
                 <div id={p.id.toString()} className={styles.bottomInput}>
                   <Input
+                    required
                     value={p.name}
-                    onChange={(e) =>
-                      handleSellingDataChange(p.id, "name", e.target.value)
-                    }
+                    onChange={(e) => {
+                      handleNameInputChange(e, p.id);
+                      handleSellingDataChange(p.id, "name", e.target.value);
+                    }}
                     isLoading={isLoading}
                   />
+                  {activeInputId === p.id && !!suggestData.length && (
+                    <ul
+                      className={classNames(
+                        styles.suggestions,
+                        wholeSaleData.items.length > 1 && styles.more,
+                      )}
+                      ref={suggestionsRef}
+                    >
+                      {suggestData.map((n) => (
+                        <li
+                          key={n.id}
+                          onClick={() => {
+                            handleSellingDataChange(p.id, "name", n.name);
+                            setSuggestData([]);
+                          }}
+                        >
+                          {n.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <Input
+                    required
                     type="number"
                     value={p.quantity}
                     onChange={(e) =>
@@ -232,6 +323,13 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
             <Textarea
               id="extraInfo"
               isLoading={isLoading}
+              value={wholeSaleData.extra_info}
+              onChange={(e) =>
+                setWholeSaleData((prevState) => ({
+                  ...prevState,
+                  extra_info: e.target.value,
+                }))
+              }
               className={styles.textarea}
             />
           </label>

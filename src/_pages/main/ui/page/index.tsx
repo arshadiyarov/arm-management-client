@@ -1,8 +1,8 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import styles from "./styles.module.scss";
-import { AuthRequired } from "processes";
+import { AuthRequired, UserContext, useProducts } from "processes";
 import { InfoCard, Table } from "widgets";
 import { CreateProductsModal, UpdateProductModal } from "features";
 import {
@@ -22,7 +22,7 @@ import {
   getSummaryDev,
   postProducts,
 } from "_pages/main/api";
-import { useProducts } from "processes/products-context";
+import { toast } from "react-toastify";
 
 const Main = () => {
   const token = TokenStorageHelper.getToken();
@@ -50,6 +50,7 @@ const Main = () => {
     },
   ]);
   const { productsData, setProductsData } = useProducts();
+  const userData = useContext(UserContext);
 
   const clearSearchValue = () => setSearchValue("");
 
@@ -172,6 +173,14 @@ const Main = () => {
   const fetchCreateProducts = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    creatingProductsData.map((p) => {
+      if (p.quantity < 1 || p.price < 1) {
+        toast.error("Something went wrong (check quantity or price)");
+        setIsCreateLoading(false);
+        return;
+      }
+    });
+
     setIsCreateLoading(true);
     const productsDataNoId = creatingProductsData.map((p) => {
       const { id, ...rest } = p;
@@ -220,26 +229,28 @@ const Main = () => {
                 "Here you will find a table of products. You can view all items in stock using the table below. For convenience, you can search for matches by name, enter part of the product name and only matches will remain in the table."
               }
             />
-            <Button className={styles.btn} onClick={handleToggleCreateModal}>
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                strokeWidth="0"
-                viewBox="0 0 512 512"
-                height="22px"
-                width="22px"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="32"
-                  d="M256 112v288m144-144H112"
-                ></path>
-              </svg>
-              <p>Add product</p>
-            </Button>
+            {userData?.role === "admin" && (
+              <Button className={styles.btn} onClick={handleToggleCreateModal}>
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 512 512"
+                  height="22px"
+                  width="22px"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="32"
+                    d="M256 112v288m144-144H112"
+                  ></path>
+                </svg>
+                <p>Add product</p>
+              </Button>
+            )}
           </div>
           <div className={styles.mid}>
             <InfoCard

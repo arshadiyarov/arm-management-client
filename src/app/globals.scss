@@ -13,6 +13,7 @@
 
 ::-webkit-scrollbar {
   width: 8px;
+  transition: var(--transition-default);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -22,10 +23,12 @@
 
   &:hover {
     background-color: rgb(var(--clr-scroll-hover));
+    transition: var(--transition-default);
   }
 
   &:active {
     background-color: rgb(var(--clr-scroll-active));
+    transition: var(--transition-default);
   }
 }
 

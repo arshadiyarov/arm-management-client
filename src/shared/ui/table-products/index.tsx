@@ -1,8 +1,9 @@
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { CURRENCY, TableSkeleton } from "shared";
-import React from "react";
+import React, { useContext } from "react";
 import classNames from "classnames";
+import { UserContext } from "processes";
 
 export const TableProducts = ({
   productsData,
@@ -10,6 +11,8 @@ export const TableProducts = ({
   selectProductId,
   isLoading,
 }: IProps) => {
+  const userData = useContext(UserContext);
+
   const handleClick = (id: number) => {
     toggleUpdateModal();
     selectProductId(id);
@@ -37,8 +40,11 @@ export const TableProducts = ({
           productsData.map((i) => (
             <tr
               key={i.id}
-              className={styles.tr}
-              onClick={() => handleClick(i.id)}
+              className={classNames(
+                styles.tr,
+                userData?.role === "manager" && styles.manager,
+              )}
+              onClick={() => userData?.role === "admin" && handleClick(i.id)}
             >
               <td className={styles.td}>{i.name}</td>
               <td className={styles.td}>{i.quantity} pcs</td>

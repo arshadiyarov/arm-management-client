@@ -7,6 +7,7 @@ import { FormEvent, useState } from "react";
 import { putUpdateProduct, putUpdateProductDev } from "../api";
 import classNames from "classnames";
 import { ProductUpdateModel } from "../model";
+import { toast } from "react-toastify";
 
 export const UpdateProductModal = ({
   toggleModal,
@@ -14,6 +15,7 @@ export const UpdateProductModal = ({
   updateProductData,
 }: IProps) => {
   const token = TokenStorageHelper.getToken();
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<ProductUpdateModel>({
     item_update: {
       name: productData.name,
@@ -64,7 +66,21 @@ export const UpdateProductModal = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await fetchUpdateProduct(productData.id, data);
+    setIsLoading(true);
+
+    if (productData.quantity < 0 || productData.price < 0) {
+      toast.error("Something went wrong (check quantity or price)");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      await fetchUpdateProduct(productData.id, data);
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      throw err;
+    }
   };
 
   return (

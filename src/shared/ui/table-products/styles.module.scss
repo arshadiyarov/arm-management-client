@@ -39,6 +39,10 @@
       cursor: pointer;
       border-bottom: var(--border-secondary);
       transition: var(--transition-default);
+      
+      &.manager {
+        cursor: default;
+      }
 
       &:hover {
         background-color: rgb(var(--clr-bg-primary));

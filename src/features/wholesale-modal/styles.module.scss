@@ -65,10 +65,41 @@
         gap: 12px;
 
         .bottomInput {
+          position: relative;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 12px;
+
+          .suggestions {
+            top: 44px;
+            width: 48.9%;
+            max-height: 150px;
+            position: absolute;
+            border-radius: var(--r-sm);
+            z-index: var(--z-index-suggestions);
+            border: var(--border-secondary);
+            overflow-y: auto;
+
+            &.more {
+              width: 48.9% - 4.2%;
+            }
+
+            li {
+              width: 100%;
+              background-color: rgb(var(--clr-bg-secondary));
+              cursor: pointer;
+              padding: var(--p-sm);
+
+              &:hover {
+                background-color: rgb(var(--clr-secondary-hover));
+              }
+
+              &:active {
+                background-color: rgb(var(--clr-secondary-active));
+              }
+            }
+          }
         }
 
         .removeBtn {

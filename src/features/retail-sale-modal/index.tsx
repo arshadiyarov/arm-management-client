@@ -1,48 +1,154 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { RetailSaleType } from "./model/types";
-import { Button, Input, ProductNoPrice, RequiredStar, Textarea } from "shared";
+import {
+  Button,
+  Input,
+  ProductNoPrice,
+  ProductType,
+  RequiredStar,
+  Textarea,
+  TokenStorageHelper,
+  useDebounce,
+} from "shared";
+import { postRetailSale } from "features/retail-sale-modal/api";
+import { toast } from "react-toastify";
+import { getItemsSearch } from "features/wholesale-modal/api";
+import classNames from "classnames";
 
 export const RetailSaleModal = ({ toggleModal }: IProps) => {
+  const token = TokenStorageHelper.getToken();
+  const [isLoading, setIsLoading] = useState(false);
   const [retailSaleData, setRetailSaleData] = useState<RetailSaleType>({
     extra_info: "",
-    items: [],
+    items: [
+      {
+        id: Date.now(),
+        name: "",
+        quantity: NaN,
+      },
+    ],
   });
-  const [sellingProductsData, setSellingProductsData] = useState<
-    ProductNoPrice[]
-  >([
-    {
-      id: Date.now(),
-      name: "",
-      quantity: NaN,
-    },
-  ]);
+  const [nameInput, setNameInput] = useState("");
+  const debouncedSearch = useDebounce(nameInput);
+  const [activeInputId, setActiveInputId] = useState<number | null>(null);
+  const suggestionsRef = useRef<HTMLUListElement | null>(null);
+  const [suggestData, setSuggestData] = useState<ProductType[]>([]);
 
   const handleSellingDataChange = (
     productId: number,
     field: string,
     value: string | number,
   ) => {
-    setSellingProductsData((prevState) =>
-      prevState.map((product) =>
+    setRetailSaleData((prevState) => ({
+      ...prevState,
+      items: prevState.items.map((product) =>
         product.id === productId ? { ...product, [field]: value } : product,
       ),
-    );
+    }));
   };
 
   const handleRemoveClick = (id: number) => {
-    setSellingProductsData(sellingProductsData.filter((p) => p.id !== id));
+    setRetailSaleData((prevState) => ({
+      ...prevState,
+      items: retailSaleData.items.filter((p) => p.id !== id),
+    }));
   };
 
   const handleAddClick = () => {
-    setSellingProductsData((prevState) => [
+    setRetailSaleData((prevState) => ({
       ...prevState,
-      { id: Date.now(), name: "", quantity: NaN },
-    ]);
+      items: [...prevState.items, { id: Date.now(), name: "", quantity: NaN }],
+    }));
   };
+
+  const fetchRetailSale = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const hasInvalidData = retailSaleData.items.some((p) => {
+      if (p.quantity < 1) {
+        toast.error("Something went wrong (check product name or quantity)");
+        setIsLoading(false);
+        return true;
+      }
+      return false;
+    });
+
+    if (hasInvalidData) return;
+
+    retailSaleData.items.forEach((p) => {
+      const { id, ...rest } = p;
+      return rest;
+    });
+
+    try {
+      await postRetailSale(token, retailSaleData);
+      setIsLoading(false);
+      setRetailSaleData(() => ({
+        extra_info: "",
+        items: [
+          {
+            id: Date.now(),
+            name: "",
+            quantity: NaN,
+          },
+        ],
+      }));
+      toast.success("Successful sale, good job🥳");
+      toggleModal();
+    } catch (err) {
+      setIsLoading(false);
+      toast.error("Something went wrong (check product name or quantity)");
+      throw err;
+    }
+  };
+
+  const handleNameInputChange = async (
+    e: ChangeEvent<HTMLInputElement>,
+    id: number,
+  ) => {
+    setNameInput(e.target.value.trim().toLowerCase());
+    setActiveInputId(id);
+  };
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      try {
+        const res = await getItemsSearch(token, nameInput);
+        setSuggestData(res.slice(0, 7));
+        console.log(res.slice(0, 7));
+      } catch (err) {
+        throw err;
+      }
+    };
+
+    if (debouncedSearch) {
+      fetchSuggestions();
+    } else {
+      setSuggestData([]);
+    }
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target as Node)
+      ) {
+        setSuggestData([]);
+        setActiveInputId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className={styles.container} onClick={toggleModal}>
@@ -74,7 +180,7 @@ export const RetailSaleModal = ({ toggleModal }: IProps) => {
             </svg>
           </Button>
         </div>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={fetchRetailSale}>
           <div>
             <div className={styles.bottomLabels}>
               <label>
@@ -89,31 +195,58 @@ export const RetailSaleModal = ({ toggleModal }: IProps) => {
                   <RequiredStar />
                 </p>
               </label>
-              {sellingProductsData.length > 1 && <div className="w-16" />}
+              {retailSaleData.items.length > 1 && <div className="w-16" />}
             </div>
             <div className={styles.bottomInputs}>
-              {sellingProductsData.map((p) => (
+              {retailSaleData.items.map((p) => (
                 // eslint-disable-next-line react/jsx-key
                 <div id={p.id.toString()} className={styles.bottomInput}>
                   <Input
+                    required
                     value={p.name}
-                    onChange={(e) =>
-                      handleSellingDataChange(p.id, "name", e.target.value)
-                    }
+                    onChange={(e) => {
+                      handleNameInputChange(e, p.id);
+                      handleSellingDataChange(p.id, "name", e.target.value);
+                    }}
+                    isLoading={isLoading}
                   />
+                  {activeInputId === p.id && !!suggestData.length && (
+                    <ul
+                      className={classNames(
+                        styles.suggestions,
+                        retailSaleData.items.length > 1 && styles.more,
+                      )}
+                      ref={suggestionsRef}
+                    >
+                      {suggestData.map((n) => (
+                        <li
+                          key={n.id}
+                          onClick={() => {
+                            handleSellingDataChange(p.id, "name", n.name);
+                            setSuggestData([]);
+                          }}
+                        >
+                          {n.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   <Input
+                    required
                     type="number"
                     value={p.quantity}
                     onChange={(e) =>
                       handleSellingDataChange(p.id, "quantity", e.target.value)
                     }
+                    isLoading={isLoading}
                   />
-                  {sellingProductsData.length > 1 && (
+                  {retailSaleData.items.length > 1 && (
                     <Button
                       type="button"
                       mode="icon"
                       className={styles.removeBtn}
                       onClick={() => handleRemoveClick(p.id)}
+                      disabled={isLoading}
                     >
                       <svg
                         stroke="currentColor"
@@ -154,6 +287,7 @@ export const RetailSaleModal = ({ toggleModal }: IProps) => {
                 mode="ghost"
                 className={styles.addBtn}
                 onClick={handleAddClick}
+                disabled={isLoading}
               >
                 <svg
                   stroke="currentColor"
@@ -178,9 +312,22 @@ export const RetailSaleModal = ({ toggleModal }: IProps) => {
           </div>
           <label htmlFor="extraInfo">
             <p>Additional info</p>
-            <Textarea id="extraInfo" className={styles.textarea} />
+            <Textarea
+              isLoading={isLoading}
+              id="extraInfo"
+              value={retailSaleData.extra_info}
+              onChange={(e) =>
+                setRetailSaleData((prevState) => ({
+                  ...prevState,
+                  extra_info: e.target.value,
+                }))
+              }
+              className={styles.textarea}
+            />
           </label>
-          <Button size="md">Sale</Button>
+          <Button disabled={isLoading} size="md">
+            Sale
+          </Button>
         </form>
       </div>
     </div>

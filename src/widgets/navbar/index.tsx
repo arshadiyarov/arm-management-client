@@ -2,15 +2,17 @@ import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import Link from "next/link";
 import classNames from "classnames";
-import { useAuth } from "processes";
+import { useAuth, UserContext } from "processes";
 import { Button, navBottomContent, navTopContent } from "shared";
 import { usePathname, useRouter } from "next/navigation";
+import { useContext } from "react";
 
 export const Navbar = ({
   isNavExpanded,
   toggleNav,
   toggleCreateModal,
 }: IProps) => {
+  const userDate = useContext(UserContext);
   const { logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
@@ -166,38 +168,40 @@ export const Navbar = ({
                 </Button>
               </li>
             ))}
-            <li className={styles.li}>
-              <Button
-                size={"lg"}
-                mode="icon"
-                className={classNames(styles.btn, styles.create)}
-                onClick={toggleCreateModal}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="40px"
-                  height="40px"
-                  fill="currentColor"
-                  stroke="currentColor"
-                  strokeWidth="0"
-                  viewBox="0 0 512 512"
+            {userDate?.role === "admin" && (
+              <li className={styles.li}>
+                <Button
+                  size={"lg"}
+                  mode="icon"
+                  className={classNames(styles.btn, styles.create)}
+                  onClick={toggleCreateModal}
                 >
-                  <path
-                    fill="none"
-                    strokeMiterlimit="10"
-                    strokeWidth="32"
-                    d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
-                  ></path>
-                  <path
-                    fill="none"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                    d="M256 176v160m80-80H176"
-                  ></path>
-                </svg>
-              </Button>
-            </li>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="40px"
+                    height="40px"
+                    fill="currentColor"
+                    stroke="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 512 512"
+                  >
+                    <path
+                      fill="none"
+                      strokeMiterlimit="10"
+                      strokeWidth="32"
+                      d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                    ></path>
+                    <path
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="32"
+                      d="M256 176v160m80-80H176"
+                    ></path>
+                  </svg>
+                </Button>
+              </li>
+            )}
             {navBottomContent.map((i) => (
               <li key={i.id} className={styles.li}>
                 <Button

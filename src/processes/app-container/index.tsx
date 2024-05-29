@@ -2,7 +2,7 @@
 
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
-import { Header, Navbar } from "widgets";
+import { AlertContainer, Header, Navbar } from "widgets";
 import { FormEvent, PropsWithChildren, useEffect, useState } from "react";
 import { AuthProvider, useProducts, UserProvider } from "processes";
 import { usePathname } from "next/navigation";
@@ -10,6 +10,7 @@ import classNames from "classnames";
 import { CreateProductsModal } from "features";
 import { ProductType, TokenStorageHelper } from "shared";
 import { postProducts, postProductsDev } from "./api";
+import "react-toastify/dist/ReactToastify.css";
 
 const excludedPaths = ["/login"];
 
@@ -149,7 +150,9 @@ export const AppContainer = ({ children }: PropsWithChildren<IProps>) => {
 
   return (
     <AuthProvider>
-      <UserProvider>{displayContent(pathname)}</UserProvider>
+      <AlertContainer>
+        <UserProvider>{displayContent(pathname)}</UserProvider>
+      </AlertContainer>
     </AuthProvider>
   );
 };
