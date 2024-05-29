@@ -4,13 +4,12 @@ import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { Header, Navbar } from "widgets";
 import { FormEvent, PropsWithChildren, useEffect, useState } from "react";
-import { AuthProvider } from "processes";
+import { AuthProvider, useProducts, UserProvider } from "processes";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
 import { CreateProductsModal } from "features";
 import { ProductType, TokenStorageHelper } from "shared";
-import { postProducts, postProductsDev } from "processes/app-container/api";
-import { useProducts } from "processes/products-context";
+import { postProducts, postProductsDev } from "./api";
 
 const excludedPaths = ["/login"];
 
@@ -80,9 +79,9 @@ export const AppContainer = ({ children }: PropsWithChildren<IProps>) => {
     });
 
     try {
-      // const res = await postProducts(token, productsDataNoId);
       // DEV FETCH
-      const res = await postProductsDev(token, productsDataNoId);
+      const res = await postProducts(token, productsDataNoId);
+      // const res = await postProductsDev(token, productsDataNoId);
       setProductsData((prevState) => [...prevState, ...res]);
       setCreatingProductsData([
         {
@@ -148,5 +147,9 @@ export const AppContainer = ({ children }: PropsWithChildren<IProps>) => {
     }
   };
 
-  return <AuthProvider>{displayContent(pathname)}</AuthProvider>;
+  return (
+    <AuthProvider>
+      <UserProvider>{displayContent(pathname)}</UserProvider>
+    </AuthProvider>
+  );
 };

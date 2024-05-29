@@ -45,7 +45,7 @@ export const baseFetchAsyncDev = async <T>(
   try {
     const config: AxiosRequestConfig = {
       // DEV FETCH
-      url: `http://192.168.59.187:8001${url}`,
+      url: `http://192.168.109.187:8001${url}`,
       method,
       headers: {
         Authorization: `Bearer ${token}`,

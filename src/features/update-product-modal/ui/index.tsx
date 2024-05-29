@@ -48,9 +48,9 @@ export const UpdateProductModal = ({
 
   const fetchUpdateProduct = async (id: number, body: ProductUpdateModel) => {
     try {
-      // await putUpdateProduct(token, id, body);
       // DEV FETCH
-      await putUpdateProductDev(token, id, body);
+      await putUpdateProduct(token, id, body);
+      // await putUpdateProductDev(token, id, body);
       const updatedProduct = {
         ...productData,
         ...body.item_update,

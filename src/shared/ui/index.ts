@@ -10,3 +10,4 @@ export { TableBeforeChange } from "./table-before-change";
 export { TableSkeleton } from "./table-skeleton";
 export { RequiredStar } from "./required-star";
 export { ReadMoreModal } from "./read-more-modal";
+export { Textarea } from "./textarea";

@@ -7,12 +7,12 @@ import { useRouter } from "next/navigation";
 import { TokenStorageHelper } from "shared";
 
 export const AuthRequired = ({ children }: PropsWithChildren<IProps>) => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (!isLoggedIn) {
-      TokenStorageHelper.removeToken();
+      logout();
       router.push("/login");
     }
   }, [isLoggedIn, router]);

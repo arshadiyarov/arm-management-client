@@ -56,9 +56,9 @@ const Main = () => {
   const fetchSummary = async () => {
     setIsSummaryLoading(true);
     try {
-      // const res = await getSummary(token);
       // DEV FETCH
-      const res = await getSummaryDev(token);
+      const res = await getSummary(token);
+      // const res = await getSummaryDev(token);
       setSummaryData((prevState) => ({ ...prevState, ...res }));
       setIsSummaryLoading(false);
     } catch (err) {
@@ -69,9 +69,9 @@ const Main = () => {
   const fetchProducts = async (limit?: string) => {
     setIsProductsLoading(true);
     try {
-      // const res = await getProducts(token, "0", limit);
       // DEV FETCH
-      const res = await getProductsDev(token, "0", limit);
+      const res = await getProducts(token, "0", limit);
+      // const res = await getProductsDev(token, "0", limit);
       setProductsData(res);
       setIsProductsLoading(false);
     } catch (err) {
@@ -86,9 +86,9 @@ const Main = () => {
   const fetchProductsSearch = async (val: string) => {
     setIsProductsLoading(true);
     try {
-      // const res = await getProductsSearch(token, val);
       // DEV FETCH
-      const res = await getProductsSearchDev(token, val);
+      const res = await getProductsSearch(token, val);
+      // const res = await getProductsSearchDev(token, val);
       setProductsData(res);
       setIsProductsLoading(false);
     } catch (err) {

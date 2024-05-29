@@ -26,6 +26,7 @@
       font-size: var(--sz-lg);
       line-height: var(--lnh-lg);
       font-weight: var(--font-semibold);
+      margin-bottom: 16px;
 
       .close {
         position: absolute;
@@ -39,56 +40,55 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 36px;
+      gap: 20px;
 
-      .inputs_container {
+      input {
+        font-size: var(--sz-md);
+        line-height: var(--lnh-md);
+      }
+
+      label {
+        width: 100%;
+      }
+
+      .bottomLabels {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .bottomInputs {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 12px;
 
-        .fullWidth {
-          width: 50%;
-        }
-
-        .halfWidth {
-          width: 25%;
-        }
-
-        .labels {
+        .bottomInput {
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 12px;
-          margin-bottom: -12px;
         }
 
-        .inputsWithRemove {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-
-          .inputs {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-
-            input {
-              font-size: var(--sz-md);
-              line-height: var(--lnh-md);
-            }
-          }
-
-          .removeBtn {
-            color: rgb(var(--clr-type-red));
-          }
+        .removeBtn {
+          color: rgb(var(--clr-type-red));
         }
 
         .addBtn {
+          align-self: flex-start;
           width: fit-content;
           display: flex;
           align-items: center;
           gap: 4px;
         }
+      }
+
+      .textarea {
+        max-height: 200px;
+        min-height: 42px;
+        font-size: var(--sz-md);
+        line-height: var(--lnh-md);
       }
     }
   }

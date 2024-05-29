@@ -1,0 +1,15 @@
+.content {
+  width: 100%;
+  padding: var(--p-sm);
+  border-radius: var(--r-sm);
+  border: var(--border-secondary);
+
+  &.loading {
+    color: rgb(var(--clr-type-gray));
+    cursor: not-allowed;
+  }
+
+  &:active, &:focus {
+    border-color: rgb(var(--clr-primary));
+  }
+}

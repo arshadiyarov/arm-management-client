@@ -36,9 +36,9 @@ const History = () => {
   const fetchHistory = async (limit?: string) => {
     setIsLoading(true);
     try {
-      // const res = await getHistory(token, "0", limit, filterValue);
       // DEV FETCH
-      const res = await getHistoryDev(token, "0", limit, filterValue);
+      const res = await getHistory(token, "0", limit, filterValue);
+      // const res = await getHistoryDev(token, "0", limit, filterValue);
       setIsLoading(false);
       setHistoryData(res);
     } catch (err) {
@@ -53,9 +53,9 @@ const History = () => {
   const fetchHistorySearch = async (val: string) => {
     setIsLoading(true);
     try {
-      // const res = await getHistorySearch(token, val);
       // DEV FETCH
-      const res = await getHistorySearchDev(token, val);
+      const res = await getHistorySearch(token, val);
+      // const res = await getHistorySearchDev(token, val);
       setHistoryData(res);
       setIsLoading(false);
     } catch (err) {
