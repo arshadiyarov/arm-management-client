@@ -5,6 +5,7 @@ export type WholeSaleType = {
 };
 
 type ItemsType = {
+  id: number;
   name: string;
   quantity: number;
 };

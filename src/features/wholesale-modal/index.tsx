@@ -1,48 +1,87 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { WholeSaleType } from "./model/types";
-import { Button, Input, ProductNoPrice, RequiredStar, Textarea } from "shared";
+import {
+  Button,
+  Input,
+  ProductNoPrice,
+  RequiredStar,
+  Textarea,
+  TokenStorageHelper,
+} from "shared";
+import { postWholeSale } from "features/wholesale-modal/api";
 
 export const WholesaleModal = ({ toggleModal }: IProps) => {
+  const token = TokenStorageHelper.getToken();
+  const [isLoading, setIsLoading] = useState(false);
   const [wholeSaleData, setWholeSaleData] = useState<WholeSaleType>({
     buyer: "",
     extra_info: "",
-    items: [],
+    items: [
+      {
+        id: Date.now(),
+        name: "",
+        quantity: NaN,
+      },
+    ],
   });
-  const [sellingProductsData, setSellingProductsData] = useState<
-    ProductNoPrice[]
-  >([
-    {
-      id: Date.now(),
-      name: "",
-      quantity: NaN,
-    },
-  ]);
+  // const [wholeSaleData.items, setWholeSaleData] = useState<
+  //   ProductNoPrice[]
+  // >([
+  //   {
+  //     id: Date.now(),
+  //     name: "",
+  //     quantity: NaN,
+  //   },
+  // ]);
 
   const handleSellingDataChange = (
     productId: number,
     field: string,
     value: string | number,
   ) => {
-    setSellingProductsData((prevState) =>
-      prevState.map((product) =>
-        product.id === productId ? { ...product, [field]: value } : product,
+    setWholeSaleData((prevState) => ({
+      ...prevState,
+      items: prevState.items.map((item) =>
+        item.id === productId ? { ...item, [field]: value } : item,
       ),
-    );
+    }));
   };
 
   const handleRemoveClick = (id: number) => {
-    setSellingProductsData(sellingProductsData.filter((p) => p.id !== id));
+    setWholeSaleData((prevState) => ({
+      ...prevState,
+      items: prevState.items.filter((item) => item.id !== id),
+    }));
   };
 
   const handleAddClick = () => {
-    setSellingProductsData((prevState) => [
+    setWholeSaleData((prevState) => ({
       ...prevState,
-      { id: Date.now(), name: "", quantity: NaN },
-    ]);
+      items: [...prevState.items, { id: Date.now(), name: "", quantity: NaN }],
+    }));
+  };
+
+  const fetchWholeSale = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    wholeSaleData.items.forEach((p) => {
+      const { id, ...rest } = p;
+      return rest;
+    });
+
+    setIsLoading(true);
+    try {
+      await postWholeSale(token, wholeSaleData);
+      setIsLoading(false);
+      toggleModal();
+    } catch (err) {
+      setIsLoading(false);
+      throw err;
+    }
   };
 
   return (
@@ -75,13 +114,13 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
             </svg>
           </Button>
         </div>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={fetchWholeSale}>
           <label htmlFor="buyer">
             <p>
               Buyer
               <RequiredStar />
             </p>
-            <Input id="buyer" />
+            <Input id="buyer" isLoading={isLoading} />
           </label>
           <div>
             <div className={styles.bottomLabels}>
@@ -97,10 +136,10 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
                   <RequiredStar />
                 </p>
               </label>
-              {sellingProductsData.length > 1 && <div className="w-16" />}
+              {wholeSaleData.items.length > 1 && <div className="w-16" />}
             </div>
             <div className={styles.bottomInputs}>
-              {sellingProductsData.map((p) => (
+              {wholeSaleData.items.map((p) => (
                 // eslint-disable-next-line react/jsx-key
                 <div id={p.id.toString()} className={styles.bottomInput}>
                   <Input
@@ -108,6 +147,7 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
                     onChange={(e) =>
                       handleSellingDataChange(p.id, "name", e.target.value)
                     }
+                    isLoading={isLoading}
                   />
                   <Input
                     type="number"
@@ -115,13 +155,15 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
                     onChange={(e) =>
                       handleSellingDataChange(p.id, "quantity", e.target.value)
                     }
+                    isLoading={isLoading}
                   />
-                  {sellingProductsData.length > 1 && (
+                  {wholeSaleData.items.length > 1 && (
                     <Button
                       type="button"
                       mode="icon"
                       className={styles.removeBtn}
                       onClick={() => handleRemoveClick(p.id)}
+                      disabled={isLoading}
                     >
                       <svg
                         stroke="currentColor"
@@ -162,6 +204,7 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
                 mode="ghost"
                 className={styles.addBtn}
                 onClick={handleAddClick}
+                disabled={isLoading}
               >
                 <svg
                   stroke="currentColor"
@@ -184,8 +227,17 @@ export const WholesaleModal = ({ toggleModal }: IProps) => {
               </Button>
             </div>
           </div>
-          <Textarea className={styles.textarea} />
-          <Button size="md">Sale</Button>
+          <label htmlFor="extraInfo">
+            <p>Additional info</p>
+            <Textarea
+              id="extraInfo"
+              isLoading={isLoading}
+              className={styles.textarea}
+            />
+          </label>
+          <Button disabled={isLoading} size="md">
+            Sale
+          </Button>
         </form>
       </div>
     </div>
