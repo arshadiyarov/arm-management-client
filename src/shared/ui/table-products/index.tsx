@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./styles.module.scss";
 import { IProps } from "./props";
 import { CURRENCY, TableSkeleton } from "shared";
