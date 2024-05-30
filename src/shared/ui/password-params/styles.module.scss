@@ -1,0 +1,21 @@
+.content {
+  position: absolute;
+  right: 8px;
+  top: 52%;
+
+  .successIcon {
+    stroke: rgb(var(--clr-type-green));
+  }
+
+  .options {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    color: rgb(var(--clr-type-black));
+
+    label {
+      cursor: pointer;
+    }
+  }
+}

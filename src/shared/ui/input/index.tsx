@@ -8,6 +8,7 @@ export const Input = (props: IProps) => {
     value,
     placeholder,
     type,
+    disabled,
     isLoading = false,
     className,
     ...otherProps
@@ -23,6 +24,7 @@ export const Input = (props: IProps) => {
       value={value}
       onChange={onChange}
       placeholder={placeholder}
+      disabled={disabled}
       {...otherProps}
     />
   );

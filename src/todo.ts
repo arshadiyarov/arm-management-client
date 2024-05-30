@@ -1,2 +1,2 @@
-// TODO: Settings page with logic
-// TODO: Pagination for tables
+// TODO: Settings page on screenshot
+// TODO: Pagination

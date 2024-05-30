@@ -1,0 +1,17 @@
+.content {
+  font-size: var(--sz-sm);
+
+  .li {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .done {
+      fill: rgb(var(--clr-type-green));
+    }
+
+    .notDone {
+      fill: rgb(var(--clr-type-gray));
+    }
+  }
+}

@@ -12,4 +12,8 @@
   &:active, &:focus {
     border-color: rgb(var(--clr-primary));
   }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
