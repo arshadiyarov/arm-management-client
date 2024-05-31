@@ -1,4 +1,4 @@
-import { ActionType, getAsync, getAsyncDev } from "shared";
+import { getAsync, getAsyncDev } from "shared";
 
 export const getHistory = async (
   token: string,

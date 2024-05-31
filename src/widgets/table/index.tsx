@@ -14,6 +14,7 @@ import {
 } from "shared";
 import classNames from "classnames";
 import React, { memo, useEffect, useRef, useState } from "react";
+import { Pagination } from "features/pagination";
 
 const MemoizedProductsTable = memo(TableProducts);
 const MemoizedHistoryTable = memo(TableHistory);
@@ -39,6 +40,9 @@ export const Table = ({
   toggleUpdateModal,
   selectProductId,
   filterChange,
+  currentPage,
+  totalPages,
+  onPageChange,
 }: IProps) => {
   const [isFilterActive, setIsFilterActive] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
@@ -115,6 +119,13 @@ export const Table = ({
       <div className={styles.top}>
         {limit && limitChange && <LimitOptions limitChange={limitChange} />}
         <p>{title}</p>
+        {totalPages && pagination && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+          />
+        )}
         <div className={styles.filterSearch}>
           {filter && (
             <div className={styles.filterContent} ref={filterRef}>
@@ -185,6 +196,13 @@ export const Table = ({
         </div>
       </div>
       <div className={styles.table_wrapper}>{returnTable(mode)}</div>
+      {totalPages && pagination && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
+      )}
     </div>
   );
 };

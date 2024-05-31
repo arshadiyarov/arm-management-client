@@ -10,6 +10,8 @@
     @media (max-width: 640px) {
       font-size: var(--sz-sm);
       line-height: var(--lnh-sm);
+      flex-wrap: wrap;
+      flex-direction: column-reverse;
 
       select {
         font-size: var(--sz-sm);

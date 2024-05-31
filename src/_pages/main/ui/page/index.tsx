@@ -50,6 +50,9 @@ const Main = () => {
     },
   ]);
   const { productsData, setProductsData } = useProducts();
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const userData = useContext(UserContext);
 
   const clearSearchValue = () => setSearchValue("");
@@ -61,17 +64,18 @@ const Main = () => {
       const res = await getSummary(token);
       // const res = await getSummaryDev(token);
       setSummaryData((prevState) => ({ ...prevState, ...res }));
+      setTotalCount(res.unique_items_count);
       setIsSummaryLoading(false);
     } catch (err) {
       throw err;
     }
   };
 
-  const fetchProducts = async (limit?: string) => {
+  const fetchProducts = async (skip: string = "0", limit: string = "10") => {
     setIsProductsLoading(true);
     try {
       // DEV FETCH
-      const res = await getProducts(token, "0", limit);
+      const res = await getProducts(token, skip, limit);
       // const res = await getProductsDev(token, "0", limit);
       setProductsData(res);
       setIsProductsLoading(false);
@@ -81,7 +85,16 @@ const Main = () => {
   };
 
   const handleLimitChange = async (val: string) => {
-    await fetchProducts(val);
+    const newLimit = parseInt(val, 10);
+    setPageSize(newLimit);
+    setCurrentPage(1);
+    await fetchProducts("0", String(newLimit));
+  };
+
+  const handlePageChange = async (page: number) => {
+    const skip = (page - 1) * pageSize;
+    setCurrentPage(page);
+    await fetchProducts(String(skip), String(pageSize));
   };
 
   const fetchProductsSearch = async (val: string) => {
@@ -280,6 +293,10 @@ const Main = () => {
               searchValueChange={handleSearchValueChange}
               clearSearchValue={clearSearchValue}
               limitChange={handleLimitChange}
+              pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(totalCount / pageSize)}
+              onPageChange={handlePageChange}
             />
           </div>
         </div>

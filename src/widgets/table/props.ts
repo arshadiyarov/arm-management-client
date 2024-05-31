@@ -26,4 +26,7 @@ export interface IProps {
   toggleUpdateModal?: () => void;
   selectProductId?: (id: number) => void;
   filterChange?: (val: string) => void;
+  currentPage?: number;
+  totalPages?: number;
+  onPageChange?: (page: number) => void;
 }

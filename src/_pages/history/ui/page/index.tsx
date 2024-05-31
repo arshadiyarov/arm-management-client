@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./styles.module.scss";
-import { AuthRequired } from "processes";
+import { AuthRequired, useProducts } from "processes";
 import {
   Description,
   HistoryType,
@@ -24,6 +24,9 @@ const History = () => {
   const debouncedSearch = useDebounce(searchValue);
   const [historyData, setHistoryData] = useState<HistoryType[]>([]);
   const [filterValue, setFilterValue] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const handleFilterChange = (val: string) => {
     setFilterValue(val);
@@ -33,12 +36,17 @@ const History = () => {
     setSearchValue("");
   };
 
-  const fetchHistory = async (limit?: string) => {
+  const fetchHistory = async (skip: string = "0", limit: string = "10") => {
     setIsLoading(true);
     try {
       // DEV FETCH
-      const res = await getHistory(token, "0", limit, filterValue);
+      const res = await getHistory(token, skip, limit, filterValue);
       // const res = await getHistoryDev(token, "0", limit, filterValue);
+      // DEV FETCH
+      const resTotal = await getHistory(token, "0", "9999", filterValue);
+      // const resTotal = await getHistoryDev(token, "0", "9999", filterValue);
+      console.log("history res:", res);
+      setTotalCount(resTotal.length);
       setIsLoading(false);
       setHistoryData(res);
     } catch (err) {
@@ -46,8 +54,17 @@ const History = () => {
     }
   };
 
+  const handlePageChange = async (page: number) => {
+    const skip = (page - 1) * pageSize;
+    setCurrentPage(page);
+    await fetchHistory(String(skip), String(pageSize));
+  };
+
   const handleLimitChange = async (val: string) => {
-    await fetchHistory(val);
+    const newLimit = parseInt(val, 10);
+    setPageSize(newLimit);
+    setCurrentPage(1);
+    await fetchHistory("0", String(newLimit));
   };
 
   const fetchHistorySearch = async (val: string) => {
@@ -102,6 +119,10 @@ const History = () => {
               filter
               filterChange={handleFilterChange}
               mode={"history"}
+              pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(totalCount / pageSize)}
+              onPageChange={handlePageChange}
             />
           </div>
         </div>

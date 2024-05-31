@@ -1,0 +1,51 @@
+.content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .ul {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .span {
+      cursor: pointer;
+      border: var(--border-secondary);
+      padding: var(--p-sm);
+      background-color: rgb(var(--clr-bg-secondary));
+      transition: var(--transition-default);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--r-sm);
+      width: 40px;
+      height: 40px;
+
+      &.active {
+        border-color: rgb(var(--clr-primary));
+        color: rgb(var(--clr-primary));
+      }
+
+      &:hover {
+        background-color: rgb(var(--clr-secondary-hover));
+      }
+
+      &:active {
+        background-color: rgb(var(--clr-secondary-active));
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        &:hover {
+          background-color: rgb(var(--clr-secondary));
+        }
+
+        &:active {
+          background-color: rgb(var(--clr-secondary));
+        }
+      }
+    }
+  }
+}
