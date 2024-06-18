@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 export const AlertContainer = ({ children }: PropsWithChildren<IProps>) => {
   return (
     <>
-      {children};
+      {children}
       <ToastContainer
         position="top-right"
         autoClose={5000}
